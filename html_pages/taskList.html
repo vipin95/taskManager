@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../taskList_style.css">
+    <title>Task list</title>
+</head>
+<body>
+    <div class="container">
+        <div class="sub-container">
+            <div class="pageTitle">
+                <div class="pageTitle_left">
+                    <h1 class="pageHeading">Task Manager</h1>
+                    <p class="pageSubHeading">Track and manage your work tasks efficiently</p>
+                </div>
+                <div class="pageTitle_right">
+                    
+                    <button type="button"><span>+</span>Create task</button>
+                </div>
+            </div>
+            <div class="taskfilter">
+                <ul class="filterUl">
+                    <li class="filterLi active">All (4)</li>
+                    <li class="filterLi">To Do (1)</li>
+                    <li class="filterLi">In Progress (1)</li>
+                    <li class="filterLi">Completed (1)</li>
+                    <li class="filterLi">Delayed (0)</li>
+                    <li class="filterLi">Failed (0)</li>
+                </ul>
+            </div>
+            <div class="tasks">
+                <div class="card">
+                    <div class="card_left">
+                        <span class="taskStage">In Progress</span>
+                        <p>Fix login authentication bug</p>
+                        <span class="taskDescription">Users are experiencing issues with the login flow on mobile devices</span><br>
+                        <ul class="taskDates">
+                            <li>Created: Oct 15, 2025</li>
+                            <li>Updated: Oct 17, 2025</li>
+                        </ul>
+                    </div>
+                    <div class="card_right">
+                        <div class="kebab-icon" onclick="toggleMenu()">⋮</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_left">
+                        <span class="taskStage" style="background-color: #e2e8f0;color:#3a4a60">To Do</span>
+                        <p>Update documentation</p>
+                        <span class="taskDescription">Add API endpoints documentation for the new features</span><br>
+                        <ul class="taskDates">
+                            <li>Created: Oct 16, 2025</li>
+                            <li>Updated: Oct 16, 2025</li>
+                        </ul>
+                    </div>
+                    <div class="card_right">
+                        <div class="kebab-icon" onclick="toggleMenu()">⋮</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_left">
+                        <span class="taskStage" style="background-color: #dbfce7;color:#248236">Completed</span>
+                        <p>Implement dark mode</p>
+                        <span class="taskDescription">Add dark mode support across the application</span><br>
+                        <ul class="taskDates">
+                            <li>Created: Oct 10, 2025</li>
+                            <li>Updated: Oct 18, 2025</li>
+                        </ul>
+                    </div>
+                    <div class="card_right">
+                        <div class="kebab-icon" onclick="toggleMenu()">⋮</div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+</body>
+</html>
