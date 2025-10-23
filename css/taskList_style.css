@@ -1,5 +1,7 @@
-body{
+*{
     box-sizing: border-box;
+}
+body{
     background-color: #f8fafc;
 }
 .sub-container{
@@ -17,7 +19,7 @@ body{
 }
 .pageSubHeading{
     margin-top: 5px;
-    font: 15px;
+    font-size: 15px;
     color: oklch(0.51 0.04 255.72);
 }
 .pageTitle_right button{
@@ -59,7 +61,7 @@ body{
     font-family: sans-serif;
     display: flex;
     justify-content: space-between;
-    align-items: top; 
+    align-items: flex-start; 
     margin: 20px 0px;
     box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
 }
@@ -74,7 +76,7 @@ body{
     font-size: 13px;
 }
 .taskDescription{
-    color: #45566c;
+    color: #2f3e54;
 }
 .taskDates{
     padding: 0px;
@@ -106,3 +108,18 @@ body{
     padding: 5px;
     font-weight: bold;  
 }
+/* ============= Media Query ============= */
+@media (max-width: 460px) {
+  
+    .filterUl {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  
+    .filterLi {
+      flex: 0 0 auto;
+    }
+    .filterUl{
+        border-radius: 15px;
+    }
+  }

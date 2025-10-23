@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/login_style.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <header class="pageHeading">
+            <h2>Sign In - Work Manager</h2>
+            <span>Sign in to your account to manage your work tickets</span>
+        </header>
+        <form action="/post" method="post">
+            <label for="email">Email</label>
+            <input type="email" placeholder="name@example.com" name="email" id="email" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Enter your password" id="password" required>
+            <input class="button" type="submit" value="Sign In">
+            <p>Create new account <a href="/signup">Sign Up</a>.</p>
+        </form>
+    </div>
+</body>
+</html>
