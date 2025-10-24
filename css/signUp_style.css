@@ -59,6 +59,7 @@ input{
 p{
     margin-bottom: 40px; 
     font-size: 13px;
+    
 }
 /* ========== Mobile Media ========== */
 @media screen and (max-width: 480px) {
