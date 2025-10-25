@@ -1,12 +1,13 @@
 // import modules
 const express = require('express');
 const app = express();
-const routes = require('./routes');
-// Port Define
-const PORT = 80;
+const registerRoutes = require('./routes');
 
-//routes middleware registerd
-app.use("/",routes); 
+// Port Define
+const PORT = 3000;
+
+// Calling methods that registring routes as middleware
+registerRoutes(app);
 
 // Start the server
 app.listen(PORT, ()=>{

@@ -1,7 +1,5 @@
-const express = require('express');
-let router = express.Router();
+function RoutesList(app) {
+  app.use("/task", require("./routes/tasks/tasks.router"));
+}
 
-router.get('/',(req, res)=>res.send("Get request"));
-router.post('/',(req, res)=>res.send("It's a post request"));
-
-module.exports = router;
+module.exports = RoutesList;
