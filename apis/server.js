@@ -1,7 +1,7 @@
 // import modules
 const express = require('express');
 const app = express();
-const registerRoutes = require('./routes');
+const registerRoutes = require('./src/routes');
 require('dotenv').config();
 
 // Port Define

@@ -1,4 +1,4 @@
-const db = require('../../models/db_config');
+const db = require('../../config/db_config');
 
 const fetchTasks = async ()=>{
     const [rows] = await db.query("SELECT * FROM tasks;");
