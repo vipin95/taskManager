@@ -17,7 +17,6 @@ const db = mysql.createPool({  // what is create pool and how many other are her
       console.log('✅ Database connected successfully');
       connection.release(); // release connection back to pool
     } catch (err) {
-      console.log(process.env.HOST, process.cwd());
       console.error('❌ Database connection failed:', err.message);
     }
   })();
