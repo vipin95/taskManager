@@ -3,10 +3,10 @@
 import mysql from "mysql2/promise";
 
 const db = mysql.createPool({  // what is create pool and how many other are here totel to coonect with db
-    host: process.env.HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.PASSWORD || "India@123",
-    database: process.env.DATABASE_NAME || "taskManager",
+    host: process.env.HOST,
+    user: process.env.DB_USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE_NAME,
     waitForConnections: true,
     connectionLimit: 10,   // Max number of connections
     queueLimit: 0          // 0 = no limit for queued requests
@@ -20,10 +20,5 @@ const db = mysql.createPool({  // what is create pool and how many other are her
       console.error('❌ Database connection failed:', err.message);
     }
   })();
-// db.connect((error)=>{
-//     // TODO: Need to refine message text;
-//     if(error) console.log("Database issue",error.message);
-//     else console.log("Database connection Successfully",db.threadId);
-// })
 
 export default db;

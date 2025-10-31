@@ -1,9 +1,8 @@
 // import modules
+import "dotenv/config";
 import express, {type Request, type Response, type NextFunction } from "express";
 import registerRoutes from "./src/routes/index";
 const app = express();
-import dotenv from "dotenv";
-dotenv.config();
 
 // Port Define
 const PORT = process.env.PORT || 3000;
