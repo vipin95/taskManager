@@ -1,6 +1,6 @@
 // import modules
 import express, {type Request, type Response, type NextFunction } from "express";
-import registerRoutes from "./src/routes/index.ts";
+import registerRoutes from "./src/routes/index";
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();

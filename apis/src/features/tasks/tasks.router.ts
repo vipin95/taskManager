@@ -1,5 +1,5 @@
 import express, {type Request, type Response } from "express";
-import {listTask, addTask, updatetask, deleteTask} from "./tasks.controller.ts";
+import {listTask, addTask, updatetask, deleteTask} from "./tasks.controller";
 
 let router = express.Router();
 

@@ -1,4 +1,4 @@
-import task from "../features/tasks/tasks.router.ts";
+import task from "../features/tasks/tasks.router";
 
 function RoutesList(app:any) {
     app.use("/", task);

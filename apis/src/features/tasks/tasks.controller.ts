@@ -2,7 +2,7 @@ import { type Request, type Response, type NextFunction } from "express";
 import {getTasks,
     postTasks,
     putTasks,
-    deleteTasks} from "./tasks.service.ts";
+    deleteTasks} from "./tasks.service";
 
 const listTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
