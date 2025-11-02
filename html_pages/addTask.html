@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/addTask_style.css">
+    <title>Add Task</title>
+</head>
+<body>
+    <div class="container">
+        <header class="pageHeader">
+            <div class="button">
+                <button class="backButton">
+                    <span class="arrow">←</span> 
+                    Back to Task list
+                </button>
+            </div>
+            <h1>Create New Task</h1>
+            <p>Add a new work ticket to track your tasks and manage you workflow</p>
+        </header>
+        <div class="sub-container">
+            <div class="form_header">
+                <h4>Task details</h4>
+                <p>Fill in the information below to create a new task ticket</p>
+            </div>
+            <form action="" method="post">
+                <label for="title" class="title">Task Title <span>*</span></label><br>
+                <input type="text" name="title" id="title" placeholder="e.g., Fix login authenticaiton bug"><br>
+                <label for="description">Description</label><br>
+                <textarea name="" id="description" cols="30" 
+                placeholder="Provide detailed information about the task..."></textarea><br>
+                <label for="taskStatus">Status</label><br>
+                <select name="taskStatus" id="taskStatus" disabled>
+                    <option value="To Do">To Do</option>
+                </select>
+                <hr>
+                <label for="preview">Preview</label>
+                <div class="card" id="preview">
+                    <div class="card_left">
+                        <span class="taskStage" style="background-color: #dbfce7;color:#248236">Completed</span>
+                        <p>Implement dark mode</p>
+                        <span class="taskDescription">Add dark mode support across the application</span><br>
+                        <ul class="taskDates">
+                            <li>Created: Oct 10, 2025</li>
+                            <li>Updated: Oct 18, 2025</li>
+                        </ul>
+                    </div>
+                    <div class="card_right">
+                        <div class="kebab-icon" onclick="toggleMenu()">⋮</div>
+                    </div>
+                </div>
+                <div class="form_button">
+                    <button class="cancel">Cancel</button>
+                    <input type="button" value="+ Create Task">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
