@@ -6,7 +6,12 @@ const app = express();
 
 // Port Define
 const PORT = process.env.PORT || 3000;
-
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Methods", "*");
+    next();
+  });
 // Calling methods that registring routes as middleware
 app.use(express.json());
 registerRoutes(app);
