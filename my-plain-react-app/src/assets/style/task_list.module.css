@@ -1,0 +1,119 @@
+.sub_container{
+    width: 80%;
+    margin: 0px auto;
+}
+.pageTitle{
+    font-family: sans-serif; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+.pageHeading{
+    margin-bottom: 0px;
+}
+.pageSubHeading{
+    margin-top: 5px;
+    font-size: 15px;
+    color: oklch(0.51 0.04 255.72);
+}
+.pageTitle_right button{
+    background-color: black;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 17px;
+}
+.pageTitle_right button span{
+    padding-right: 20px;
+}
+.taskfilter{
+    font-family: sans-serif;
+}
+/* .filterLi:nth-child(1) {
+    background-color: white;
+} */
+.filterLi {
+    border-radius: 50px;
+    padding: 7px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.active{
+    background-color: white;
+}
+.filterUl{
+    display: inline-flex;
+    list-style: none;
+    background-color: #ececf0;
+    border-radius: 50px;
+    padding: 4px 10px;
+}
+.card{
+    background-color:#ffffff;
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+    margin: 20px 0px;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+}
+.card:hover{
+    box-shadow: 1px 1px 3px 2px rgba(0, 0, 0, 0.3);
+}
+.taskStage{
+    background-color: #dbeafe;
+    padding: 5px 10px;
+    border-radius: 30px;
+    color: #2248e6;
+    font-size: 13px;
+}
+.taskDescription{
+    color: #2f3e54;
+}
+.taskDates{
+    padding: 0px;
+    display: inline-flex;
+    list-style: none;
+    color: #62748e;
+}
+.taskDates li:nth-child(1)::before {
+    content: '📅'; /* Font Awesome calendar icon Unicode */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 8px;
+    color: #007bff; /* Optional: Blue icon */
+    font-size: 1rem;
+}
+.taskDates li:nth-child(2)::before {
+    content: '🕒'; /* Font Awesome calendar icon Unicode */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 8px;
+    color: #007bff; /* Optional: Blue icon */
+    font-size: 1rem;
+    padding-left: 15px;
+}
+.kebab_icon {
+    cursor: pointer;
+    font-size: 25px;
+    user-select: none;
+    padding: 5px;
+    font-weight: bold;  
+}
+/* ============= Media Query ============= */
+@media (max-width: 460px) {
+  
+    .filterUl {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  
+    .filterLi {
+      flex: 0 0 auto;
+    }
+    .filterUl{
+        border-radius: 15px;
+    }
+  }
