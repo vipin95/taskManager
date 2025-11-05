@@ -2,7 +2,8 @@
 import db from "../../config/db_config";
 
 const getTasks = async ()=>{
-    const [rows] = await db.query("SELECT * FROM tasks;");
+    const [rows] = await db.query(
+        "SELECT *, DATE_FORMAT(created_at, '%d %b %Y') AS created_at, DATE_FORMAT(updated_at, '%d %b %Y') AS updated_at FROM tasks;");
     return rows;
 }
 const postTasks = async ({name, description}:{name:string, description:string})=>{
