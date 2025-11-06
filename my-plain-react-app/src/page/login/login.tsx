@@ -1,7 +1,11 @@
 import Style from "../../assets/style/login.module.css";
+import { useNavigate } from "react-router";
 
 function Login({GuestLoginAction}) {
-
+    const navigate = useNavigate();
+    const SignUp = ()=>{
+        navigate("/sign-up");
+    }
     return (
         <div className={Style.container}>
             <div className={Style.subContainer}>
@@ -21,7 +25,7 @@ function Login({GuestLoginAction}) {
                         <span>Or</span>
                     </div>
                     <button onClick={()=>GuestLoginAction()} className={Style.Guest_button}>Continue as Guest</button>
-                    <p>Don't have an account?<a href="/html_pages/signUp.html"> Sign Up</a>.</p>
+                    <p>Don't have an account?<span onClick={()=>SignUp()}> Sign Up</span>.</p>
                 </div>
             </div>
         </div>

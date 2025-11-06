@@ -1,6 +1,11 @@
 import Style from "../../assets/style/signUp.module.css";
+import { useNavigate } from "react-router";
 
 function SignUp() {
+    const navigate = useNavigate();
+    const LoginForm = ()=>{
+        navigate("/login");
+    }
     return (
         <div className={Style.container}>
             <div className={Style.subContainer}>
@@ -16,7 +21,7 @@ function SignUp() {
                     <label for="confirmPassword">Confirm Password</label>
                     <input type="password" name="confirmPassword" placeholder="Confirm your password" id="confirmPassword" required />
                     <input className={Style.button} type="submit" value="Sign In" />
-                    <p>Already have an account? <a href="/html_pages/login.html">Sign In</a>.</p>
+                    <p>Already have an account? <a onClick={()=>LoginForm()}>Sign In</a>.</p>
                 </form>
             </div>
         </div>

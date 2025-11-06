@@ -1,6 +1,6 @@
 import style from "../../assets/style/addTask_style.module.css";
 import { useNavigate } from "react-router";
-function TaskAdd() {
+function TaskAdd({formData, updateState, postData}) {
     const navigate = useNavigate();
     return (
         <div className={style.body}>
@@ -22,9 +22,9 @@ function TaskAdd() {
                 </div>
                 <form action="" method="post">
                     <label for="title">Task Title <span>*</span></label><br />
-                    <input type="text" name="title" className={style.title} id="title" placeholder="e.g., Fix login authenticaiton bug"/><br />
+                    <input type="text" onKeyUp={(event)=>{updateState({...formData,"name":event.target.value})}} name="title" className={style.title} id="title" placeholder="e.g., Fix login authenticaiton bug"/><br />
                     <label for="description">Description</label><br />
-                    <textarea name="" className={style.description} id="description" cols="30"
+                    <textarea name="" onKeyUp={(event)=>{updateState({...formData,"description":event.target.value})}} className={style.description} id="description" cols="30"
                             placeholder="Provide detailed information about the task..."></textarea><br />
                     <label for="taskStatus">Status</label><br />
                     <select name="taskStatus" id="taskStatus" className={style.taskStatus} disabled>
@@ -35,20 +35,17 @@ function TaskAdd() {
                     <div className={style.card} id="preview">
                         <div className={style.card_left}>
                             <span className={style.taskStage} style={{"background-color": "#dbfce7", "color":"#248236"}}>Completed</span>
-                            <p>Implement dark mode</p>
-                            <span className={style.taskDescription}>Add dark mode support across the application</span><br />
+                            <p>{formData?.name}</p>
+                            <p className={style.taskDescription}>{formData?.description}</p>
                             <ul className={style.taskDates}>
                                 <li>Created: Oct 10, 2025</li>
                                 <li>Updated: Oct 18, 2025</li>
                             </ul>
                         </div>
-                        <div className={style.card_right}>
-                            <div className={style.kebab_icon} onclick="toggleMenu()">⋮</div>
-                        </div>
                     </div>
                     <div className={style.form_button}>
                         <button className={style.cancel}>Cancel</button>
-                        <input type="button" value="+ Create Task"/>
+                        <input onClick={()=>postData()} type="button" value="+ Create Task"/>
                     </div>
                 </form>
             </div>

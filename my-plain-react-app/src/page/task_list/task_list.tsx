@@ -1,17 +1,11 @@
 import style from '../../assets/style/task_list.module.css';
 import { useNavigate } from 'react-router';
 import TaskCard from "../../compononts/task_card.tsx";
-import { useEffect, useState } from 'react';
 
-function DefaultPage(){
-    const [tasks, setTasks] = useState([]);
+function DefaultPage({tasks}){
+    
     const navigate = useNavigate();
-    useEffect(() => {
-        fetch("http://127.0.0.1:4000/task")
-          .then((response) => response.json())
-          .then((data) => setTasks(data))
-          .catch((error) => console.error("Error fetching users:", error));
-      }, []);
+    
     return(
         <div className={style.container}>
             <div className={style.sub_container}>
