@@ -1,10 +1,9 @@
 import style from '../../assets/style/task_list.module.css';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import TaskCard from "../../compononts/task_card.tsx";
 
-function DefaultPage({tasks}){
-    
-    const navigate = useNavigate();
+function DefaultPage({deleteItem, tasks, updateState, navigate}){
+    // const navigate = useNavigate();
     
     return(
         <div className={style.container}>
@@ -31,11 +30,9 @@ function DefaultPage({tasks}){
                     </ul>
                 </nav>
                 <div className={style.tasks}>
-                {/* <span className="taskStage"  style={{"background-color": "#e2e8f0", "color":"#3a4a60"}} >To Do</span>
-                <span className="taskStage" style={{"background-color": "#dbfce7", "color":"#248236"}} >Completed</span> */}
                     {
                         tasks?.map((task)=>{
-                           return <TaskCard data={task} style={style}/>
+                           return <TaskCard deleteItem={deleteItem} navigate={navigate} data={task} style={style} updateState={updateState}/>
                         })
                     }
                 </div>

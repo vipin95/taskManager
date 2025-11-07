@@ -1,19 +1,20 @@
 import Style from "../../assets/style/login.module.css";
 import { useNavigate } from "react-router";
 
-function Login({GuestLoginAction}) {
+function Login({GuestLoginAction, children}) {
     const navigate = useNavigate();
     const SignUp = ()=>{
         navigate("/sign-up");
     }
     return (
         <div className={Style.container}>
+            {children}
             <div className={Style.subContainer}>
                 <header className={Style.pageHeading}>
                     <h2>Sign In - Work Manager</h2>
                     <span>Sign in to your account to manage your work tickets</span>
                 </header>
-                <form action="/post" method="post">
+                <form className="loginForm" action="/post" method="post">
                     <label for="email">Email</label>
                     <input type="email" placeholder="name@example.com" name="email" id="email" required />
                     <label for="password">Password</label>

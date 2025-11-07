@@ -13,7 +13,7 @@ function SignUp() {
                     <h2>Create an account</h2>
                     <span>Enter your details to create your work ticket manager account</span>
                 </header>
-                <form action="/post" method="post">
+                <form className="SignUPForm" action="/post" method="post">
                     <label for="email">Email</label>
                     <input type="email" placeholder="name@example.com" name="email" id="email" required />
                     <label for="password">Password</label>

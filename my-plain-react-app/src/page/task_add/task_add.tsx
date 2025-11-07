@@ -22,9 +22,9 @@ function TaskAdd({formData, updateState, postData}) {
                 </div>
                 <form action="" method="post">
                     <label for="title">Task Title <span>*</span></label><br />
-                    <input type="text" onKeyUp={(event)=>{updateState({...formData,"name":event.target.value})}} name="title" className={style.title} id="title" placeholder="e.g., Fix login authenticaiton bug"/><br />
+                    <input type="text" onChange={(event)=>{updateState({...formData,"name":event.target.value})}} name="title" className={style.title} id="title" placeholder="e.g., Fix login authenticaiton bug"/><br />
                     <label for="description">Description</label><br />
-                    <textarea name="" onKeyUp={(event)=>{updateState({...formData,"description":event.target.value})}} className={style.description} id="description" cols="30"
+                    <textarea name="" onChange={(event)=>{updateState({...formData,"description":event.target.value})}} className={style.description} id="description" cols="30"
                             placeholder="Provide detailed information about the task..."></textarea><br />
                     <label for="taskStatus">Status</label><br />
                     <select name="taskStatus" id="taskStatus" className={style.taskStatus} disabled>
@@ -44,7 +44,7 @@ function TaskAdd({formData, updateState, postData}) {
                         </div>
                     </div>
                     <div className={style.form_button}>
-                        <button className={style.cancel}>Cancel</button>
+                        <button className={style.cancel}>Reset</button>
                         <input onClick={()=>postData()} type="button" value="+ Create Task"/>
                     </div>
                 </form>
