@@ -1,22 +1,41 @@
 // import modules
 import express, {type Request, type Response, type NextFunction } from "express";
 import registerRoutes from "./src/routes/index";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();
-
+app.use(cookieParser());
 // Port Define
-const PORT = process.env.PORT || 3000;
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Headers", "*");
-    res.header("Access-Control-Allow-Methods", "*");
-    next();
-  });
+const PORT = process.env.PORT || 4000;
+
+app.use(
+    cors({
+        origin: process.env.API_URL,
+        credentials: true,
+    })
+);
+app.get("/set-cookie", (req, res) => {
+    let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
+    res.cookie('id', id, {
+        secure: false,
+        sameSite: 'lax',  // Works on HTTP
+        path: '/',        // Available everywhere
+      });
+    res.cookie('username','Guest', {
+        secure: false,
+        sameSite: 'lax',  // Works on HTTP
+        path: '/',        // Available everywhere
+      });
+    res.json({ message: "Cookie set successfully!" });
+});
+
 // Calling methods that registring routes as middleware
 app.use(express.json());
 registerRoutes(app);
 
+  
 // Middleware 
 app.use((err: any, req: Request, res: Response, next: NextFunction)=>{
     console.log("Error", err);
