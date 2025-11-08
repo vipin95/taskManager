@@ -4,15 +4,15 @@ import db from "../../config/db_config";
 const getTasks = async (user_id:string, id?:number)=>{
     var sql;
     if(id){
-        sql = `SELECT *, DATE_FORMAT(created_at, '%d %b %Y') AS created_at, DATE_FORMAT(updated_at, '%d %b %Y') AS updated_at FROM tasks WHERE user_id="${user_id}" AND tasks.id="${id}"`;
+        sql = `SELECT *, DATE_FORMAT(created_at, '%d %b %Y') AS created_at, DATE_FORMAT(updated_at, '%d %b %Y') AS updated_at FROM tasks WHERE guest_user_id="${user_id}" AND tasks.id="${id}"`;
     }else{
-        sql = `SELECT *, DATE_FORMAT(created_at, '%d %b %Y') AS created_at, DATE_FORMAT(updated_at, '%d %b %Y') AS updated_at FROM tasks WHERE user_id="${user_id}"`;
+        sql = `SELECT *, DATE_FORMAT(created_at, '%d %b %Y') AS created_at, DATE_FORMAT(updated_at, '%d %b %Y') AS updated_at FROM tasks WHERE guest_user_id="${user_id}"`;
     }
     const [rows] = await db.query(sql);
     return rows;
 }
 const postTasks = async (id:string, {name, description}:{name:string, description:string})=>{
-    let sql = `INSERT INTO tasks (name, description, user_id) VALUES (?, ?, ?)`;
+    let sql = `INSERT INTO tasks (name, description, guest_user_id) VALUES (?, ?, ?)`;
         let params = [name, description, id]
         const [rows] = await db.query(sql, params);
         return rows;
