@@ -1,18 +1,24 @@
 // import modules
+
+import dotenv from "dotenv";
+import path from "path";
+
+const env = process.env.NODE_ENV;
+const envPath = path.resolve(process.cwd(), `.env.${env}`);
+dotenv.config({ path: envPath });
+
 import express, {type Request, type Response, type NextFunction } from "express";
 import registerRoutes from "./src/routes/index";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 const app = express();
-import dotenv from "dotenv";
-dotenv.config();
 app.use(cookieParser());
 // Port Define
 const PORT = process.env.PORT || 4000;
 
 app.use(
     cors({
-        origin: process.env.API_URL,
+        origin: process.env.CLIENT_URL,
         credentials: true,
     })
 );
@@ -46,5 +52,5 @@ app.use((err: any, req: Request, res: Response, next: NextFunction)=>{
 });
 // Start the server
 app.listen(PORT, ()=>{
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server is running at http://localhost:${PORT} In ${process.env.NODE_ENV}`);
 });
