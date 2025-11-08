@@ -6,7 +6,23 @@ import TaskEditController from "./page/task_edit/task_Edit.controller.tsx";
 import LoginController from "./page/login/login.controller.tsx";
 import SignUp from "./page/signUp/signUp.tsx";
 
+import { initializeApp } from "firebase/app";
+
 function beforeEveryRoute({request}) {
+  
+  // Firebase Code
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlJp7T1WORyAy5aXT2GPrC6_mmoEYM9FM",
+    authDomain: "testproject-29811.firebaseapp.com",
+    projectId: "testproject-29811",
+    storageBucket: "testproject-29811.firebasestorage.app",
+    messagingSenderId: "215065405551",
+    appId: "1:215065405551:web:da2c959aae16ab2e20859a",
+    measurementId: "G-G36CPLW3QM"
+  };
+  const app = initializeApp(firebaseConfig);
+  console.log("Firebase Connected ✅");
+
   // 1. read existing guest id
   const match = document.cookie.match(/id=([^;]+)/);
   let guestId = match?.[1];

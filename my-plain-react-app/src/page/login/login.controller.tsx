@@ -28,7 +28,6 @@ function LoginController() {
 
     return(
         <Login GuestLoginAction={GuestLogin}>
-            <button onClick={()=>{fetch()}}>Fetch cookie</button>
         </Login>
     )
 }

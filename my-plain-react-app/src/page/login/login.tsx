@@ -8,7 +8,6 @@ function Login({GuestLoginAction, children}) {
     }
     return (
         <div className={Style.container}>
-            {children}
             <div className={Style.subContainer}>
                 <header className={Style.pageHeading}>
                     <h2>Sign In - Work Manager</h2>
