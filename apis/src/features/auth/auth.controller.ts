@@ -1,17 +1,26 @@
 import { type Request, type Response, type NextFunction } from "express";
 import bcrypt from "bcrypt";
 import Users from "../../model/sequelize_user";
+import JWT from "jsonwebtoken";
 
 const signUp = async (req: Request, res: Response, next:NextFunction)=>{
     /*  1. data received
-        2. Basic( hash ) Auth added
+        2. Basic( hash ) Auth with JWT added
         todo: add email already exist or not check perform;
     */ 
     try {
-        let password = await bcrypt.hash(req.body.password, 14),
-            email = req.body.email;
-            let result = await Users.create({"password": password, "email":email});
-            res.send(result);
+        let User = await Users.findOne({
+            where:{"email": req.body.email}
+        });
+        if(!User){
+            let password = await bcrypt.hash(req.body.password, 14),
+                email = req.body.email;
+            await Users.create({"password": password, "email":email});
+            res.status(201).json({"message": "User Created Successfully!"});
+        }else{
+            res.status(401).json("User already Exist!");
+        }
+        
     } catch (error) {
         next(error);
     }
@@ -25,8 +34,13 @@ const login = async (req: Request, res: Response, next:NextFunction)=>{
             where:{"email": email}
         });
         if(hashed){
-            let result = await bcrypt.compare(password, hashed?.getDataValue('password'));
-            res.send(result);
+            let isAuth = await bcrypt.compare(password, hashed?.getDataValue('password'));
+            if(isAuth){
+                let token = JWT.sign({"id" : hashed?.getDataValue('id')}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+                res.status(200).json({"message": "Successfully login", "token" : token});
+            }else{
+                res.status(401).json("Invalid User!");
+            }
         }else{
             res.send(
                 "Invalid User!"
