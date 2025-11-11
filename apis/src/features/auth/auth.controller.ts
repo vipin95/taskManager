@@ -8,7 +8,7 @@ const signUp = (req: Request, res: Response, next:NextFunction)=>{
     */ 
         let password = bcrypt.hash(req.body.password, 14),
             email = req.body.email;
-
+        
     try {
         res.status(200).json(req.body);
     } catch (error) {
