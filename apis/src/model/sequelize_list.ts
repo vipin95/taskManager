@@ -2,7 +2,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize";
 
-const Task = sequelize.define("Task", {
+const Tasks = sequelize.define("Tasks", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -38,4 +38,4 @@ const Task = sequelize.define("Task", {
   underscored: true,             // ✅ Maps camelCase to snake_case
 });
 
-export default Task;
+export default Tasks;
