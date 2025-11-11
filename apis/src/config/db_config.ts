@@ -56,10 +56,5 @@ initDB();
       console.error('❌ Database connection failed:', err.message);
     }
   })();
-// db.connect((error)=>{
-//     // TODO: Need to refine message text;
-//     if(error) console.log("Database issue",error.message);
-//     else console.log("Database connection Successfully",db.threadId);
-// })
 
 export default db;

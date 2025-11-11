@@ -1,5 +1,5 @@
-// const db = require('../../config/db_config');
 import db from "../../config/db_config";
+import Task from "../../model/sequelize";
 
 const getTasks = async (user_id:string, id?:number)=>{
     var sql;
