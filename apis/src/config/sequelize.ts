@@ -9,7 +9,14 @@ import { Sequelize } from "sequelize";
 //          dialect: 'mysql'
 //     }
 // );
-const sequelize = new Sequelize(process.env.URI as string);
+// const sequelize = new Sequelize(process.env.URI as string);
+const sequelize = new Sequelize(process.env.URI! as string, {
+    dialect: "mysql", // ✅ explicitly define it, just to be safe
+    dialectOptions: {
+      connectTimeout: 60000, // optional (helps with Railway slow connections)
+    },
+    logging: false, // optional
+  });
 const checkConnection = async ()=> {
     try {
        await sequelize.authenticate();

@@ -1,20 +1,15 @@
 import Login from "./login.tsx";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
-import { Get } from "../../service/getRequest.tsx";
+import { Get, Post } from "../../service/getRequest.tsx";
 
 function LoginController() {
     const navigate = useNavigate();
-    const fetch = async ()=>{
-        console.log(document.cookie);
-    }
     const [user, setUser] = useState({});
     useEffect(()=>{
-        const cookiesObject =document.cookie.split("; ").reduce((result, keyValue)=>{
-            let array = keyValue.split("=");
-            return {...result ,[array[0]]:array[1]};
-        },{});
-        if(cookiesObject.username && cookiesObject.id){
+        const match = document.cookie.match(/token=([^;]+)/);
+        let token = match?.[1];
+        if(token){
             navigate("/list");
         }
     },[user]);
@@ -22,12 +17,29 @@ function LoginController() {
     const GuestLogin = async ()=>{
         // document.cookie = "username=Guest";
         // document.cookie = "id=guest_" + Math.random().toString(36).substr(2, 9);
-        await Get("/set-cookie");
+        await Get("/auth/guest-login");
         setUser({"username":"Guest", "id":`guest_ ${Math.random().toString(36).substr(2, 9)}` });
+    }
+    const StateUpdate = (obj)=>{
+        setUser({...user, ...obj});
+    }
+    const userLogin = async (event)=>{
+        event.preventDefault();
+        console.log(user);
+        await Post("/auth/login", {
+            "email" : user.email,
+            "password": user.password
+            }
+        );
+        setUser({...user, "login":"true"});
+    }
+    const googleLogin = async ()=>{
+        window.location.href = "http://localhost:4000/auth/google";
     }
 
     return(
-        <Login GuestLoginAction={GuestLogin}>
+        <Login GuestLoginAction={GuestLogin} redirect={navigate} StateUpdate={StateUpdate} user={user} userLogin={userLogin}>
+            <button onClick={()=>googleLogin()}>Login With Google</button>
         </Login>
     )
 }

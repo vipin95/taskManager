@@ -2,6 +2,8 @@ import { type Request, type Response, type NextFunction } from "express";
 import bcrypt from "bcrypt";
 import Users from "../../model/sequelize_user";
 import JWT from "jsonwebtoken";
+import passport from "../../config/google_SSO";
+
 
 const signUp = async (req: Request, res: Response, next:NextFunction)=>{
     /*  1. data received
@@ -20,7 +22,6 @@ const signUp = async (req: Request, res: Response, next:NextFunction)=>{
         }else{
             res.status(401).json("User already Exist!");
         }
-        
     } catch (error) {
         next(error);
     }
@@ -29,15 +30,25 @@ const login = async (req: Request, res: Response, next:NextFunction)=>{
     try{
         let password = req.body.password,
             email = req.body.email;
-
+            
         let hashed = await Users.findOne({
             where:{"email": email}
         });
         if(hashed){
-            let isAuth = await bcrypt.compare(password, hashed?.getDataValue('password'));
+            let isAuth = await bcrypt.compare(password, hashed.getDataValue('password'));
             if(isAuth){
                 let token = JWT.sign({"id" : hashed?.getDataValue('id')}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
-                res.status(200).json({"message": "Successfully login", "token" : token});
+                res.cookie('username', hashed?.getDataValue('name')+"", {
+                    secure: false,
+                    sameSite: 'lax',  // Works on HTTP
+                    path: '/',        // Available everywhere
+                });
+                res.cookie('token',token, {
+                    secure: false,
+                    sameSite: 'lax',  // Works on HTTP
+                    path: '/',        // Available everywhere
+                });
+                res.status(200).json({"message": "Successfully login"});
             }else{
                 res.status(401).json("Invalid User!");
             }
@@ -50,8 +61,58 @@ const login = async (req: Request, res: Response, next:NextFunction)=>{
         next(error);
     }
 }
+// if Token then Valid
+// how to know user( then make id available & name ) is guest or normal
+const redirectToGoogle = async (req: Request, res: Response)=>{
+    passport.authenticate('google', { scope: ['profile', 'email'] })(req, res);
+}
+const google = async (req: Request, res: Response, next: NextFunction)=>{
+    // TODO: retive data and pass JWT token to user
+    try {
+        passport.authenticate("google", { session: false }, (err, user) => {
+            if (err || !user) {
+                return res.redirect(`${process.env.CLIENT_URL}/login`); 
+            }
+            let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
+            let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+
+            res.cookie('username', user.name, {
+                secure: false,
+                sameSite: 'lax',  // Works on HTTP
+                path: '/',        // Available everywhere
+            });
+            res.cookie('token',token, {
+                secure: false,
+                sameSite: 'lax',  // Works on HTTP
+                path: '/',        // Available everywhere
+            });    
+            res.redirect(`${process.env.CLIENT_URL}/list`);
+        })(req, res, next);
+    } catch (error) {
+        next(error);
+    }
+}
+const guestLogin = async (req: Request, res: Response)=>{
+
+    let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
+    let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+    res.cookie('username','Guest', {
+        secure: false,
+        sameSite: 'lax',  // Works on HTTP
+        path: '/',        // Available everywhere
+    });
+    res.cookie('token',token, {
+        secure: false,
+        sameSite: 'lax',  // Works on HTTP
+        path: '/',        // Available everywhere
+    });
+    res.json({ message: "Login successfully." });
+}
 
 export {
     signUp,
-    login
+    login,
+    google,
+    redirectToGoogle,
+    guestLogin
 }

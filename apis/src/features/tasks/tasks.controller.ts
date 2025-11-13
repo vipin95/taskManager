@@ -3,10 +3,13 @@ import {getTasks,
     postTasks,
     putTasks,
     deleteTasks} from "./tasks.service";
+import jwt from "jsonwebtoken";
 
 const listTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
-        const user_id = req.cookies.id;
+        const cookie_payload : any = await jwt.decode(req.cookies.token);
+        if( !cookie_payload ) res.status(400).json({ message: "Invalid token" });
+        const user_id = cookie_payload.id;
         const tasksList = await getTasks(user_id);
         res.status(200).json(tasksList);
     }catch(error){
@@ -15,7 +18,9 @@ const listTask = async (req: Request, res : Response, next: NextFunction)=>{
 };
 const FetchTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
-        const user_id = req.cookies.id;
+        const cookie_payload : any = await jwt.decode(req.cookies.token);
+        if( !cookie_payload ) res.status(400).json({ message: "Invalid token" });
+        const user_id = cookie_payload.id;
         const id = parseInt(req.params.id);
         const tasksList = await getTasks(user_id, id);
         res.status(200).json(tasksList);
@@ -25,7 +30,9 @@ const FetchTask = async (req: Request, res : Response, next: NextFunction)=>{
 };
 const addTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
-        let user_id = req.cookies.id;
+        const cookie_payload : any = await jwt.decode(req.cookies.token);
+        if( !cookie_payload ) res.status(400).json({ message: "Invalid token" });
+        const user_id = cookie_payload.id;
         const tasksList = await postTasks(user_id, req.body);
         res.status(200).json(tasksList);
     }catch(error){
@@ -34,7 +41,6 @@ const addTask = async (req: Request, res : Response, next: NextFunction)=>{
 };
 const updatetask = async (req: Request,res : Response, next: NextFunction)=>{
     try{
-        console.log(req.body);
         const tasksList = await putTasks(req.body);
         res.status(200).json(tasksList);
     }catch(error){

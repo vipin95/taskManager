@@ -1,31 +1,27 @@
 import Style from "../../assets/style/login.module.css";
-import { useNavigate } from "react-router";
 
-function Login({GuestLoginAction, children}) {
-    const navigate = useNavigate();
-    const SignUp = ()=>{
-        navigate("/sign-up");
-    }
+function Login({GuestLoginAction, Redirect, children, StateUpdate, user, userLogin}) {
     return (
         <div className={Style.container}>
+            {children}
             <div className={Style.subContainer}>
                 <header className={Style.pageHeading}>
                     <h2>Sign In - Work Manager</h2>
                     <span>Sign in to your account to manage your work tickets</span>
                 </header>
-                <form className="loginForm" action="/post" method="post">
+                <form className="loginForm">
                     <label for="email">Email</label>
-                    <input type="email" placeholder="name@example.com" name="email" id="email" required />
+                    <input type="email" placeholder="name@example.com" name="email" id="email" onChange={(e)=>StateUpdate({"email": e.target.value})} value={user?.email} required />
                     <label for="password">Password</label>
-                    <input type="password" name="password" placeholder="Enter your password" id="password" required />
-                    <input className={Style.button} type="submit" value="Sign In" />
+                    <input type="password" name="password" placeholder="Enter your password" onChange={(e)=>StateUpdate({"password": e.target.value})} value={user?.password} id="password" required />
+                    <input className={Style.button} type="submit" onClick={(e)=>userLogin(e)} value="Sign In" />
                 </form>
                 <div className="guestLogin">
                     <div className={Style.line_with_text}>
                         <span>Or</span>
                     </div>
                     <button onClick={()=>GuestLoginAction()} className={Style.Guest_button}>Continue as Guest</button>
-                    <p>Don't have an account?<span onClick={()=>SignUp()}> Sign Up</span>.</p>
+                    <p>Don't have an account?<span onClick={()=>Redirect("/sign-up")}> Sign Up</span>.</p>
                 </div>
             </div>
         </div>

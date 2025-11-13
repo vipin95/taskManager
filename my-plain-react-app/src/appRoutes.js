@@ -9,13 +9,13 @@ import SignUp from "./page/signUp/signUp.tsx";
 function beforeEveryRoute({request}) {
 
   // 1. read existing guest id
-  const match = document.cookie.match(/id=([^;]+)/);
-  let guestId = match?.[1];
-
+  const match = document.cookie.match(/token=([^;]+)/);
+  let token = match?.[1];
+  
   const url = new URL(request.url);
   const currentPath = url.pathname;
   
-  if (currentPath !== "/login" && !guestId) {
+  if (currentPath !== "/login" && !token) {
     throw redirect("/login");
   }
 
