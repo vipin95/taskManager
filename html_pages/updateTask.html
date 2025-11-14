@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/updateTask_style.css">
+    <title>Edit Task</title>
+</head>
+<body>
+    <div class="container">
+        <header class="pageHeader">
+            <div class="button">
+                <button class="backButton">
+                    <span class="arrow">←</span> 
+                    Back to Task list
+                </button>
+            </div>
+            <h1>Update Task</h1>
+            <p>Edit you Task ticket</p>
+        </header>
+        <div class="sub-container">
+            <div class="form_header">
+                <h4>Task details</h4>
+                <p>Fill in the information below to update the task ticket</p>
+            </div>
+            <form action="" method="post">
+                <label for="title" class="title">Task Title</label><br>
+                <input type="text" name="title" id="title" placeholder="e.g., Fix login authenticaiton bug"><br>
+                <label for="description">Description</label><br>
+                <textarea name="" id="description" cols="30" 
+                placeholder="Provide detailed information about the task..."></textarea><br>
+                <label for="taskStatus">Status</label><br>
+                <select name="taskStatus" id="taskStatus" >
+                    <option value="To Do">To Do</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                    <option value="Delay">Delayed</option>
+                </select>
+                <hr>
+                <div class="form_button">
+                    <button class="cancel">Reset</button>
+                    <input type="button" value="+ Update Task">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
