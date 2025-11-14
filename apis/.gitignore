@@ -3,3 +3,9 @@ node_modules/
 .env.development
 .env.production
 dist/
+
+.firebaserc
+firebase-debug.log
+firebase.json
+firebase_apis/
+
