@@ -5,7 +5,7 @@
       "nixpacksPlan": {
         "providers": ["node"]
       },
-      "rootDirectory": "taskManager/apis"
+      "root": "taskManager/apis"
     },
     "deploy": {
       "startCommand": "npm start",
