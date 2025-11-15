@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 import registerRoutes from "./src/routes/index";
 import passport from "./src/config/google_SSO";
 const app = express();
-const PORT = process.env.PORT; // Port Define
+const PORT = process.env.PORT || 4001; // Port Define
 
 app.use(passport.initialize());
 app.use(cookieParser());
