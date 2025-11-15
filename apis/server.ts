@@ -21,7 +21,9 @@ app.use(
         credentials: true,
     })
 );
-
+app.get("/",(req:Request, res:Response)=>{
+    res.send("Server working fine");
+});
 // Calling methods that registring routes as middleware
 app.use(express.json());
 registerRoutes(app);  // Registring all the routes here
