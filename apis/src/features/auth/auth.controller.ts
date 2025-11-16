@@ -103,9 +103,10 @@ const guestLogin = async (req: Request, res: Response)=>{
         path: '/',        // Available everywhere
     });
     res.cookie('token',token, {
+        httpOnly: true,
         secure: true,
         sameSite: 'none',  // Works on HTTP
-        path: '/',        // Available everywhere
+        path: '/',  
     });
     res.json({ message: "Login successfully." });
 }
