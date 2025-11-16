@@ -8,17 +8,13 @@ import SignUp from "./page/signUp/signUp.tsx";
 
 function beforeEveryRoute({request}) {
 
-  // 1. read existing guest id
-  const match = document.cookie.match(/token=([^;]+)/);
-  let token = match?.[1];
-  
+  const isLoginTrue = localStorage.getItem("login");
   const url = new URL(request.url);
   const currentPath = url.pathname;
   
-  if (currentPath !== "/login" && !token) {
+  if (currentPath !== "/login" && !isLoginTrue) {
     throw redirect("/login");
   }
-
 }
 function RootLayout() {
   return <Outlet />; // Renders child routes

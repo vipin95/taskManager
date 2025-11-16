@@ -15,13 +15,16 @@ function LoginController() {
     },[user]);
     
     const GuestLogin = async ()=>{
-        // document.cookie = "username=Guest";
-        // document.cookie = "id=guest_" + Math.random().toString(36).substr(2, 9);
-        const loginGuestResponse = await Get("/auth/guest-login");
+        try {
+            const loginGuestResponse = await Get("/auth/guest-login");
         if(loginGuestResponse.message === "Login successfully."){
+            localStorage.setItem("login","true");
             navigate("/list");
         }
         setUser({"username":"Guest", "id":`guest_ ${Math.random().toString(36).substr(2, 9)}` });
+        } catch (error) {
+            throw error;
+        }
     }
     const StateUpdate = (obj)=>{
         setUser({...user, ...obj});
