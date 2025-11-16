@@ -96,6 +96,13 @@ const guestLogin = async (req: Request, res: Response)=>{
 
     let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
     let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+    res.cookie('sessionId', 'guest123', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',  // Works on HTTP
+        path: '/', 
+        maxAge:3600*1000       // Available everywhere
+    });
     res.cookie('username','Guest', {
         httpOnly: true,
         secure: true,

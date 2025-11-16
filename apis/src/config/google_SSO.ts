@@ -6,7 +6,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.SERVER_URL!,
-      callbackURL: "https://taskmanager-production-3540.up.railway.app/auth/google/g-login",
+      callbackURL: `${process.env.SERVER_URL}/auth/google/g-login`,
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = {
