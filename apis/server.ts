@@ -15,20 +15,12 @@ const PORT = process.env.PORT || 4001; // Port Define
 
 app.use(passport.initialize());
 app.use(cookieParser());
-app.use(cors({
-    origin: process.env.CLIENT_URL,    // https://taskmanager-ec96a.web.app
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  }));
-  
-  // Handle preflight
-  app.use((req, res, next) => {
-    if (req.method === "OPTIONS") {
-      return res.sendStatus(200);
-    }
-    next();
-  });
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true,
+    })
+);
 app.get("/",(req:Request, res:Response)=>{
     res.send("Server working fine");
 });
