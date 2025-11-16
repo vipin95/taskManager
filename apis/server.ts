@@ -17,10 +17,10 @@ app.use(passport.initialize());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: process.env.CLIENT_URL,
-        credentials: true,
+      origin: (origin, callback) => callback(null, true),
+      credentials: true,
     })
-);
+  );
 app.get("/",(req:Request, res:Response)=>{
     res.send("Server working fine");
 });

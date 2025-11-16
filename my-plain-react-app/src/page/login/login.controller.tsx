@@ -17,7 +17,10 @@ function LoginController() {
     const GuestLogin = async ()=>{
         // document.cookie = "username=Guest";
         // document.cookie = "id=guest_" + Math.random().toString(36).substr(2, 9);
-        await Get("/auth/guest-login");
+        const loginGuestResponse = await Get("/auth/guest-login");
+        if(loginGuestResponse.message === "Login successfully."){
+            navigate("/list");
+        }
         setUser({"username":"Guest", "id":`guest_ ${Math.random().toString(36).substr(2, 9)}` });
     }
     const StateUpdate = (obj)=>{
