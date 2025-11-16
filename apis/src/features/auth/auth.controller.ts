@@ -100,13 +100,15 @@ const guestLogin = async (req: Request, res: Response)=>{
         httpOnly: true,
         secure: true,
         sameSite: 'none',  // Works on HTTP
-        path: '/',        // Available everywhere
+        path: '/', 
+        maxAge:3600*1000       // Available everywhere
     });
     res.cookie('token',token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
         path: '/',  
+        maxAge:3600*1000
     });
     res.status(200).json({ message: "Login successfully." });
 }
