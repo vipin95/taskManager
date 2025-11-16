@@ -105,10 +105,10 @@ const guestLogin = async (req: Request, res: Response)=>{
     res.cookie('token',token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'none',  // Works on HTTP
+        sameSite: 'none',
         path: '/',  
     });
-    res.json({ message: "Login successfully." });
+    res.status(200).json({ message: "Login successfully." });
 }
 
 export {
