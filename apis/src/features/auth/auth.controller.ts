@@ -97,16 +97,14 @@ const guestLogin = async (req: Request, res: Response)=>{
     let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
     let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
     res.cookie('username','Guest', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',  // Works on HTTP
-        path: '/',        // Available everywhere
+        secure: false,
+                sameSite: 'lax',  // Works on HTTP
+                path: '/',       // Available everywhere
     });
     res.cookie('token',token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        path: '/',  
+        secure: false,
+                sameSite: 'lax',  // Works on HTTP
+                path: '/',   
     });
     res.status(200).json({ message: "Login successfully." });
 }
