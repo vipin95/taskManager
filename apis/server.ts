@@ -21,6 +21,10 @@ app.use(
         credentials: true,
     })
 );
+app.options("*", cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+  }));
 app.get("/",(req:Request, res:Response)=>{
     res.send("Server working fine");
 });
