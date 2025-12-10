@@ -8,8 +8,10 @@ import jwt from "jsonwebtoken";
 const listTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
         const cookie_payload : any = await jwt.decode(req.cookies.token);
-        if( !cookie_payload ) res.status(400).json({ message: "Invalid token" });
-        const user_id = cookie_payload.id;
+        if( !cookie_payload ) {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+        const user_id = cookie_payload?.id;
         const tasksList = await getTasks(user_id);
         res.status(200).json(tasksList);
     }catch(error){
@@ -50,8 +52,7 @@ const updatetask = async (req: Request,res : Response, next: NextFunction)=>{
 const deleteTask = async (req: Request,res : Response, next: NextFunction)=>{
     try{
         const id = parseInt(req.params.id);
-        console.log(typeof id);
-        const tasksList = await deleteTasks(id);
+        const tasksList = await deleteTasks({"id": id});
         res.status(200).json("tasksList");
     }catch(error){
         next(error);

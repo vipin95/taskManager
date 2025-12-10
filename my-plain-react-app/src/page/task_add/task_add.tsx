@@ -1,6 +1,6 @@
 import style from "../../assets/style/addTask_style.module.css";
 import { useNavigate } from "react-router";
-function TaskAdd({formData, updateState, postData}) {
+function TaskAdd({formData, updateState, postData, date}) {
     const navigate = useNavigate();
     return (
         <div className={style.body}>
@@ -38,8 +38,8 @@ function TaskAdd({formData, updateState, postData}) {
                             <p>{formData?.name}</p>
                             <p className={style.taskDescription}>{formData?.description}</p>
                             <ul className={style.taskDates}>
-                                <li>Created: Oct 10, 2025</li>
-                                <li>Updated: Oct 18, 2025</li>
+                                <li>{date}</li>
+                                <li>{date}</li>
                             </ul>
                         </div>
                     </div>

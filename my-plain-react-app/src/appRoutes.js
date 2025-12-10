@@ -8,12 +8,14 @@ import SignUp from "./page/signUp/signUp.tsx";
 
 function beforeEveryRoute({request}) {
 
-  const isLoginTrue = localStorage.getItem("login");
+  const isLogin = localStorage.getItem("login") === "true";
   const url = new URL(request.url);
   const currentPath = url.pathname;
   
-  if (currentPath !== "/login" && !isLoginTrue) {
+  if (currentPath !== "/login" && isLogin !== true) {
     throw redirect("/login");
+  }else if(currentPath == "/login" && isLogin == true){
+    throw redirect("/list");
   }
 }
 function RootLayout() {

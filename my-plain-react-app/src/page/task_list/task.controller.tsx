@@ -2,32 +2,60 @@ import TaskList from "./task_list.tsx";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
 import { Get, Edit, Delete } from "../../service/getRequest.tsx";
+import { API_PATHS } from "../../assets/constants.js";
+import { toast } from 'react-toastify';
 
 function TaskController() {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
+  // const notify = () => toast.error("Email already exists");
   useEffect(() => {
-    getList();
+    try {
+      getList();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }, []);
   const getList = () => {
-    Get("/task")
+    Get(API_PATHS.TASKS)
       .then((response) => {
         setTasks(response)
       })
-      .catch((error) => console.error("Error fetching users:", error));
+      .catch((error) => {
+        toast.error(error.message);
+      });
   }
   const updateState = async (obj) => {
-    const APIresponse = await Edit("/task", obj);
-    console.log(APIresponse);
-    getList();
+    try {
+      await Edit(API_PATHS.TASKS, obj);
+      // TODO: need to catch and throw error
+      getList();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
   const deleteItem = async (id) => {
-    const APIresponse = await Delete("/task/"+id);
-    console.log(APIresponse);
-    getList();
+    try {
+      await Delete(API_PATHS.TASKS+id);
+      // TODO: need to catch and throw error
+      getList();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
+  const logout = async () => {
+    try {
+      const APIresponse = await Delete("/auth/logout");
+      if(APIresponse == "Cookie deleted"){
+        localStorage.setItem("login","false");
+        navigate("/login");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
   return (
-    <TaskList tasks={tasks} deleteItem={deleteItem} updateState={updateState} navigate={navigate} />
+    <TaskList tasks={tasks} deleteItem={deleteItem} updateState={updateState} navigate={navigate} logout={logout} />
   )
 }
 export default TaskController;

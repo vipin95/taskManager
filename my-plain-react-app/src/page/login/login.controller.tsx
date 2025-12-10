@@ -1,5 +1,5 @@
 import Login from "./login.tsx";
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 import { useNavigate } from "react-router";
 import { Get, Post } from "../../service/getRequest.tsx";
 
@@ -31,7 +31,6 @@ function LoginController() {
     }
     const userLogin = async (event)=>{
         event.preventDefault();
-        console.log(user);
         await Post("/auth/login", {
             "email" : user.email,
             "password": user.password
@@ -42,7 +41,6 @@ function LoginController() {
     const googleLogin = async ()=>{
         window.location.href = "http://localhost:4000/auth/google";
     }
-
     return(
         <Login GuestLoginAction={GuestLogin} redirect={navigate} StateUpdate={StateUpdate} user={user} userLogin={userLogin}>
             <button onClick={()=>googleLogin()}>Login With Google</button>

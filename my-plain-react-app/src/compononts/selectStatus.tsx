@@ -1,8 +1,8 @@
 import style from "../assets/style/addTask_style.module.css";
 
-function SelectStatus({id, status, updateState=({})=>{alert("Default")}}) {
+function SelectStatus({status, updateState=({})=>{alert("Default")}, id}) {
     return (
-        <select value={status} name="taskStatus" id="taskStatus" onChange={(event) => { updateState({ "id":id, "status": event.target.value }) }} className={style.taskStatus}>
+        <select value={status} name="taskStatus" id="taskStatus" onChange={(event) => { updateState({"status": event.target.value, "id" : id }) }} className={style.taskStatus}>
             <option value="todo">To Do</option>
             <option value="in_progress">In Progress</option>
             <option value="delayed">Delayed</option>

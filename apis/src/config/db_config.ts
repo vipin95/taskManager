@@ -15,7 +15,8 @@ const db = mysql.createPool({
   uri: process.env.URI,  // ← Railway gives this
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  multipleStatements: true 
 });
 async function initDB() {
   await db.query(`

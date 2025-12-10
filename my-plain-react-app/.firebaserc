@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "taskmanager-ec96a",
+    "prod": "taskmanager-ec96a"
+  },
+  "targets": {},
+  "etags": {}
+}

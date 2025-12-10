@@ -12,7 +12,7 @@ function TaskAddController() {
           .then((response) => {
             updateState(response[0]);
           })
-          .catch((error) => console.error("Error fetching users:", error));
+          .catch((error) => console.error("Error in fetching users:", error));
       }, []);
     const updateState = (obj)=>{
         setFormData({...formData, ...obj});
@@ -21,11 +21,10 @@ function TaskAddController() {
         let payload = {
             "name": formData?.name,
             "description": formData?.description,
-            "id" : formData?.id,
+            "id" : location.state.id,
             "status": formData?.status
         }
         const APIresponse = await Edit("/task", payload);
-        console.log(APIresponse.status);
         navigate("/list");
         
     }

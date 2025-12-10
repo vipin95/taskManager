@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import Users from "../../model/sequelize_user";
 import JWT from "jsonwebtoken";
 import passport from "../../config/google_SSO";
-
+import { deleteTasks } from "../tasks/tasks.service";
+import jwt from "jsonwebtoken";
 
 const signUp = async (req: Request, res: Response, next:NextFunction)=>{
     /*  1. data received
@@ -37,7 +38,7 @@ const login = async (req: Request, res: Response, next:NextFunction)=>{
         if(hashed){
             let isAuth = await bcrypt.compare(password, hashed.getDataValue('password'));
             if(isAuth){
-                let token = JWT.sign({"id" : hashed?.getDataValue('id')}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+                let token = JWT.sign({"id" : hashed?.getDataValue('id')}, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
                 res.cookie('username', hashed?.getDataValue('name')+"", {
                     secure: false,
                     sameSite: 'lax',  // Works on HTTP
@@ -74,7 +75,7 @@ const google = async (req: Request, res: Response, next: NextFunction)=>{
                 return res.redirect(`${process.env.CLIENT_URL}/login`); 
             }
             let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
-            let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+            let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
 
             res.cookie('username', user.name, {
                 secure: false,
@@ -92,30 +93,59 @@ const google = async (req: Request, res: Response, next: NextFunction)=>{
         next(error);
     }
 }
+const logout = async (req: Request, res: Response)=>{
+    try {
+        const cookie_payload : any = await jwt.decode(req.cookies.token);
+        if( !cookie_payload ) {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+        const user_id = cookie_payload?.id;
+        await deleteTasks({"user_id": user_id});
+        res.clearCookie('sessionId', {
+            path: '/',
+            sameSite: 'none',
+            secure: true
+        });
+        res.clearCookie('username', {
+            path: '/',
+            sameSite: 'none',
+            secure: true
+        });
+        res.clearCookie('token', {
+            path: '/',
+            sameSite: 'none',
+            secure: true
+        });
+        // TODO: clear all data from database al well
+        res.send("Cookie deleted");
+    } catch (error) {
+        throw error;
+    }
+}
 const guestLogin = async (req: Request, res: Response)=>{
 
     let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
-    let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+    let token = JWT.sign({"id" : id}, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
     res.cookie('sessionId', 'guest123', {
         httpOnly: true,
         secure: true,
         sameSite: 'none',  // Works on HTTP
         path: '/', 
-        maxAge:3600*1000       // Available everywhere
+        maxAge:30*24*3600*1000       // Available everywhere
     });
     res.cookie('username','Guest', {
         httpOnly: true,
         secure: true,
         sameSite: 'none',  // Works on HTTP
         path: '/', 
-        maxAge:3600*1000       // Available everywhere
+        maxAge:30*24*3600*1000       // Available everywhere
     });
     res.cookie('token',token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
         path: '/',  
-        maxAge:3600*1000
+        maxAge:30*24*3600*1000
     });
     res.status(200).json({ message: "Login successfully." });
 }
@@ -125,5 +155,6 @@ export {
     login,
     google,
     redirectToGoogle,
-    guestLogin
+    guestLogin,
+    logout
 }

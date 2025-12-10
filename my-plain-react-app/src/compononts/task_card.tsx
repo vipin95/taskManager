@@ -1,6 +1,6 @@
 import SelectStatus from "./selectStatus.tsx";
 
-function TaskCard({deleteItem, navigate, updateState, style, data: { name, description, created_at, updated_at, status, id } }) {
+function TaskCard({deleteItem, navigate, updateState, style, data: { name, description, created_at_formatted, updated_at_formatted, status, id } }) {
     return (
         <div className={style.card}>
             <div className={style.card_left}>
@@ -14,8 +14,8 @@ function TaskCard({deleteItem, navigate, updateState, style, data: { name, descr
                 Status: <SelectStatus status={status} updateState={updateState} id={id} />
 
                 <ul className={style.taskDates}>
-                    <li>Created: {created_at}</li>
-                    <li>Updated: {updated_at}</li>
+                    <li>Created: {created_at_formatted}</li>
+                    <li>Updated: {updated_at_formatted}</li>
                 </ul>
             </div>
             <div className={style.card_right}>

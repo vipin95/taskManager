@@ -13,7 +13,8 @@ async function Get(path: string, id?: number ) {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        let errorData = await response.json();
+        throw { status: response.status, message: errorData.message };
       }
   
       return response.json();
@@ -34,11 +35,16 @@ function Edit(path: string, payload) {
     body: JSON.stringify(payload)
   });
 }
-function Delete(path: string) {
-   return fetch(apiUrl+path, {
+async function Delete(path: string) {
+  let response = await fetch(apiUrl+path, {
     method: "DELETE",
     credentials: "include",
   });
+  if (!response.ok) {
+    let errorData = await response.json();
+    throw { status: response.status, message: errorData.message };
+  }
+  return await response.text();
 }
 export {
     Get,
