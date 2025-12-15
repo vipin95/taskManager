@@ -2,7 +2,7 @@ import style from "../../assets/style/addTask_style.module.css";
 import { useNavigate } from "react-router";
 import SelectStatus from "../../compononts/selectStatus.tsx";
 
-function TaskEdit({formData, updateState, UpdateData}) {
+function TaskEdit({formData, updateState, UpdateData, inputField}) {
 
     const navigate = useNavigate();
 
@@ -24,9 +24,9 @@ function TaskEdit({formData, updateState, UpdateData}) {
                     <h4>Task details</h4>
                     <p>Fill in the information below to update task ticket</p>
                 </div>
-                <form action="" method="post">
+                <form onSubmit={(e)=>UpdateData(e)}>
                     <label for="title">Task Title</label><br />
-                    <input type="text" value={formData?.name} onChange={(event)=>{updateState({"name":event.target.value})}} 
+                    <input ref={inputField} type="text" value={formData?.name} onChange={(event)=>{updateState({"name":event.target.value})}} 
                     name="title" className={style.title} id="title" placeholder="e.g., Fix login authenticaiton bug"/><br />
                     <label for="description">Description</label><br />
                     <textarea name="" value={formData?.description} onChange={(event)=>{updateState({"description":event.target.value})}} className={style.description} id="description" cols="30"
@@ -34,8 +34,8 @@ function TaskEdit({formData, updateState, UpdateData}) {
                     <label for="taskStatus">Status</label><br />
                     <SelectStatus status={formData?.status} updateState={updateState} />
                     <div className={style.form_button}>
-                        <button className={style.cancel}>Reset</button>
-                        <input onClick={()=>UpdateData()} type="button" value="Update Task"/>
+                        <button type="button" className={style.cancel}>Reset</button>
+                        <button type="submit">Update Task</button>
                     </div>
                 </form>
             </div>

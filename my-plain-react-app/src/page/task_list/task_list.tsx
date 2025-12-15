@@ -1,7 +1,7 @@
 import style from '../../assets/style/task_list.module.css';
 import TaskCard from "../../compononts/task_card.tsx";
 
-function DefaultPage({deleteItem, tasks, updateState, navigate, logout}){
+function DefaultPage({deleteItem, tasks, updateState, navigate, logout, setSelectedList, selectedList}){
     return(
         <div className={style.container}>
             <div className={style.sub_container}>
@@ -21,29 +21,27 @@ function DefaultPage({deleteItem, tasks, updateState, navigate, logout}){
                     <ul className={style.filterUl}>
                         {
                             tasks[0]?.map(({status, count}, index) => {
-                                if(index == 0 ){
+                                if( index == 0 ){
                                     return  <>
-                                        <li className={`${style.filterLi} ${style.active}`}>All ({tasks[1].length})</li>
-                                        <li className={style.filterLi} key={index}>{status} ({count})</li>
+                                        <li onClick={() => setSelectedList("All")} className={`${style.filterLi} ${ selectedList === "All"?style.active:""}`}>All ({tasks[1].length})</li>
+                                        <li onClick={() => setSelectedList(status)} className={`${style.filterLi} ${ selectedList === status ? style.active:""}`} key={index}>{status==="in_progress" ? "in progress" : status} ({count})</li>
                                     </>
                                 }else {
-                                    return <li className={style.filterLi} key={index}>{status} ({count})</li>
+                                    return <li onClick={() => setSelectedList(status)} className={`${style.filterLi} ${ selectedList === status ? style.active:""}`} key={index}>{status==="in_progress" ? "in progress" : status} ({count})</li>
                                 }
                                 
                             })
                         }
-                        
-                        {/* <li className={style.filterLi}>To Do (1)</li> */}
-                        {/* <li className={style.filterLi}>In Progress (1)</li> */}
-                        {/* <li className={style.filterLi}>Completed (1)</li> */}
-                        {/* <li className={style.filterLi}>Delayed (0)</li> */}
-                        {/* <li className={style.filterLi}>Failed (0)</li> */}
                     </ul>
                 </nav>
                 <div className={style.tasks}>
                     {
                         tasks[1]?.map((task)=>{
-                           return <TaskCard deleteItem={deleteItem} navigate={navigate} data={task} style={style} updateState={updateState}/>
+                            if(selectedList === "All"){
+                                return <TaskCard deleteItem={deleteItem} navigate={navigate} data={task} style={style} updateState={updateState}/>
+                            }else if(task.status === selectedList){
+                                return <TaskCard deleteItem={deleteItem} navigate={navigate} data={task} style={style} updateState={updateState}/>
+                            }
                         })
                     }
                 </div>

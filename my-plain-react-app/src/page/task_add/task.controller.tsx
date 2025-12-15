@@ -1,5 +1,5 @@
 import TaskAdd from "./task_add.tsx";
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import {Post} from "../../service/getRequest.tsx";
 import { toast } from 'react-toastify';
@@ -7,11 +7,16 @@ import { toast } from 'react-toastify';
 function TaskAddController() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({});
+    const inputRef = useRef(null);
+    useEffect(() => {
+        inputRef.current.focus();
+    },[])
     const updateState = (obj)=>{
         setFormData({...formData,  ...obj});
     }
-    const postData = async ()=>{
+    const postData = async (event)=>{
         try {
+            event.preventDefault();
             await Post("/task", formData);
             // TODO: catch the error here
             navigate("/list");
@@ -22,7 +27,7 @@ function TaskAddController() {
     }
     let yourDate = new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
     return(
-        <TaskAdd formData={formData} updateState={updateState} date={yourDate} postData={postData}/>
+        <TaskAdd inputRef={inputRef} formData={formData} updateState={updateState} date={yourDate} postData={postData}/>
     )
 }
 export default TaskAddController;

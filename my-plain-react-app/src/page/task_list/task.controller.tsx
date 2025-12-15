@@ -1,5 +1,5 @@
 import TaskList from "./task_list.tsx";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router";
 import { Get, Edit, Delete } from "../../service/getRequest.tsx";
 import { API_PATHS } from "../../assets/constants.js";
@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 
 function TaskController() {
   const [tasks, setTasks] = useState([]);
+  const [selectedList, setSelectedList] = useState("All");
   const navigate = useNavigate();
-  // const notify = () => toast.error("Email already exists");
   useEffect(() => {
     try {
       getList();
@@ -36,7 +36,7 @@ function TaskController() {
   }
   const deleteItem = async (id) => {
     try {
-      await Delete(API_PATHS.TASKS+id);
+      await Delete(`${API_PATHS.TASKS}/${id}`);
       // TODO: need to catch and throw error
       getList();
     } catch (error) {
@@ -45,17 +45,17 @@ function TaskController() {
   }
   const logout = async () => {
     try {
-      const APIresponse = await Delete("/auth/logout");
+      const APIresponse = await Delete(API_PATHS.AUTH);
       if(APIresponse == "Cookie deleted"){
-        localStorage.setItem("login","false");
-        navigate("/login");
+        localStorage.setItem("login", "false");
+        navigate(`${API_PATHS.LOGIN}`);
       }
     } catch (error) {
       toast.error(error.message);
     }
   }
   return (
-    <TaskList tasks={tasks} deleteItem={deleteItem} updateState={updateState} navigate={navigate} logout={logout} />
+    <TaskList selectedList={selectedList} setSelectedList={setSelectedList} tasks={tasks} deleteItem={deleteItem} updateState={updateState} navigate={navigate} logout={logout} />
   )
 }
 export default TaskController;

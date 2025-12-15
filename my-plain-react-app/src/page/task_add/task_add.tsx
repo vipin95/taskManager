@@ -1,6 +1,7 @@
 import style from "../../assets/style/addTask_style.module.css";
 import { useNavigate } from "react-router";
-function TaskAdd({formData, updateState, postData, date}) {
+
+function TaskAdd({formData, updateState, postData, date, inputRef}) {
     const navigate = useNavigate();
     return (
         <div className={style.body}>
@@ -20,8 +21,8 @@ function TaskAdd({formData, updateState, postData, date}) {
                     <h4>Task details</h4>
                     <p>Fill in the information below to create a new task ticket</p>
                 </div>
-                <form action="" method="post">
-                    <label for="title">Task Title <span>*</span></label><br />
+                <form onSubmit={(e)=>postData(e)}>
+                    <label for="title" ref={inputRef} >Task Title <span>*</span></label><br />
                     <input type="text" onChange={(event)=>{updateState({...formData,"name":event.target.value})}} name="title" className={style.title} id="title" placeholder="e.g., Fix login authenticaiton bug"/><br />
                     <label for="description">Description</label><br />
                     <textarea name="" onChange={(event)=>{updateState({...formData,"description":event.target.value})}} className={style.description} id="description" cols="30"
@@ -44,8 +45,10 @@ function TaskAdd({formData, updateState, postData, date}) {
                         </div>
                     </div>
                     <div className={style.form_button}>
-                        <button className={style.cancel}>Reset</button>
-                        <input onClick={()=>postData()} type="button" value="+ Create Task"/>
+                        <button type="button" className={style.cancel}>Reset</button>
+                        <button type="submit">+ Create Task</button>
+
+                        {/* <input type="button" value="+ Create Task"/> */}
                     </div>
                 </form>
             </div>
