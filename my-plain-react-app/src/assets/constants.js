@@ -3,4 +3,4 @@ export const API_PATHS = {
     LOGIN: "/login",
     LOGOUT: "/logout",
     AUTH: "/auth/logout"
-  };
+};
