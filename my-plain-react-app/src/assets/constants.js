@@ -4,3 +4,6 @@ export const API_PATHS = {
     LOGOUT: "/logout",
     AUTH: "/auth/logout"
 };
+export const stateName = {
+    taskList : "taskList",
+}

@@ -32,7 +32,7 @@ function TaskEdit({formData, updateState, UpdateData, inputField}) {
                     <textarea name="" value={formData?.description} onChange={(event)=>{updateState({"description":event.target.value})}} className={style.description} id="description" cols="30"
                             placeholder="Provide detailed information about the task..."></textarea><br />
                     <label for="taskStatus">Status</label><br />
-                    <SelectStatus status={formData?.status} updateState={updateState} />
+                    <SelectStatus style={style} status={formData?.status} updateState={updateState} />
                     <div className={style.form_button}>
                         <button type="button" className={style.cancel}>Reset</button>
                         <button type="submit">Update Task</button>

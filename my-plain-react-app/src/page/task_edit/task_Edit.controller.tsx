@@ -27,7 +27,7 @@ function TaskAddController() {
             "id" : location.state.id,
             "status": formData?.status
         }
-        const APIresponse = await Edit("/task", payload);
+        await Edit("/task", payload);
         navigate("/list");
         
     }

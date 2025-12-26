@@ -2,13 +2,16 @@ import TaskList from "./task_list.tsx";
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router";
 import { Get, Edit, Delete } from "../../service/getRequest.tsx";
-import { API_PATHS } from "../../assets/constants.js";
+import { API_PATHS, stateName } from "../../assets/constants.js";
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from "react-redux";
+import { taskList } from "./redux/saveApiData.ts";
 
 function TaskController() {
-  const [tasks, setTasks] = useState([]);
   const [selectedList, setSelectedList] = useState("All");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state?.[stateName.taskList]?.data)
   useEffect(() => {
     try {
       getList();
@@ -19,7 +22,7 @@ function TaskController() {
   const getList = () => {
     Get(API_PATHS.TASKS)
       .then((response) => {
-        setTasks(response)
+        dispatch(taskList(response));
       })
       .catch((error) => {
         toast.error(error.message);
@@ -36,9 +39,13 @@ function TaskController() {
   }
   const deleteItem = async (id) => {
     try {
-      await Delete(`${API_PATHS.TASKS}/${id}`);
-      // TODO: need to catch and throw error
-      getList();
+      let isConfirmed = window.confirm("Sure, want to delete the task?")
+      if(isConfirmed){
+        await Delete(`${API_PATHS.TASKS}/${id}`);
+        // TODO: need to catch and throw error
+        getList();
+        toast.success("Deleted Successfully!");
+      }
     } catch (error) {
       toast.error(error.message);
     }

@@ -6,12 +6,12 @@ function TaskCard({deleteItem, navigate, updateState, style, data: { name, descr
             <div className={style.card_left}>
                 <span className={`${style.taskStage} ${style[status]}`}>{status == "in_progress" ? "In Progress" : status}</span>
                 <p>{name}</p>
-                <span className={style.taskDescription}>{description}</span>
+                {description ?<span className={style.taskDescription}>{description}</span>:""}
                 <br />
                 <br />
                 <br />
 
-                Status: <SelectStatus status={status} updateState={updateState} id={id} />
+                Status: <SelectStatus style={style} status={status} updateState={updateState} id={id} />
 
                 <ul className={style.taskDates}>
                     <li>Created: {created_at_formatted}</li>

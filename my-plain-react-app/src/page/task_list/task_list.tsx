@@ -20,7 +20,7 @@ function DefaultPage({deleteItem, tasks, updateState, navigate, logout, setSelec
                 <nav className={style.taskfilter}>
                     <ul className={style.filterUl}>
                         {
-                            tasks[0]?.map(({status, count}, index) => {
+                            tasks && tasks[0]?.map(({status, count}, index) => {
                                 if( index == 0 ){
                                     return  <>
                                         <li onClick={() => setSelectedList("All")} className={`${style.filterLi} ${ selectedList === "All"?style.active:""}`}>All ({tasks[1].length})</li>
@@ -36,7 +36,7 @@ function DefaultPage({deleteItem, tasks, updateState, navigate, logout, setSelec
                 </nav>
                 <div className={style.tasks}>
                     {
-                        tasks[1]?.map((task)=>{
+                        tasks && tasks[1]?.map((task)=>{
                             if(selectedList === "All"){
                                 return <TaskCard deleteItem={deleteItem} navigate={navigate} data={task} style={style} updateState={updateState}/>
                             }else if(task.status === selectedList){

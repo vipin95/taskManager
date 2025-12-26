@@ -4,12 +4,17 @@ import reportWebVitals from './reportWebVitals';
 import AppRoutes from "./appRoutes.js";
 import "./assets/style/global.css";
 import { ToastContainer } from 'react-toastify';
+import { store } from "./app/store.js";
+import { Provider } from "react-redux";
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <AppRoutes />
-    <ToastContainer/>
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <AppRoutes />
+      <ToastContainer/>
+    </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
