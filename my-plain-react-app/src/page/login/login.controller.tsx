@@ -42,7 +42,7 @@ function LoginController() {
         window.location.href = "http://localhost:4000/auth/google";
     }
     return(
-        <Login GuestLoginAction={GuestLogin} redirect={navigate} StateUpdate={StateUpdate} user={user} userLogin={userLogin}>
+        <Login GuestLoginAction={GuestLogin} navigate={navigate} StateUpdate={StateUpdate} user={user} userLogin={userLogin}>
             <button onClick={()=>googleLogin()}>Login With Google</button>
         </Login>
     )

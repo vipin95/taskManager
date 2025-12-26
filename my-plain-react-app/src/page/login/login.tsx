@@ -1,6 +1,6 @@
 import Style from "../../assets/style/login.module.css";
 
-function Login({GuestLoginAction, Redirect, children, StateUpdate, user, userLogin}) {
+function Login({GuestLoginAction, navigate, children, StateUpdate, user, userLogin}) {
     return (
         <div className={Style.container}>
             {children}
@@ -21,7 +21,7 @@ function Login({GuestLoginAction, Redirect, children, StateUpdate, user, userLog
                         <span>Or</span>
                     </div>
                     <button onClick={()=>GuestLoginAction()} className={Style.Guest_button}>Continue as Guest</button>
-                    <p>Don't have an account?<span onClick={()=>Redirect("/sign-up")}> Sign Up</span>.</p>
+                    <p>Don't have an account?<span onClick={()=>navigate("/sign-up")}> Sign Up</span>.</p>
                 </div>
             </div>
         </div>

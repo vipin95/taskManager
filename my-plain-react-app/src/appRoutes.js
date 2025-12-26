@@ -4,7 +4,7 @@ import TaskController from "./page/task_list/task.controller.tsx";
 import TaskAddController from "./page/task_add/task.controller.tsx";
 import TaskEditController from "./page/task_edit/task_Edit.controller.tsx";
 import LoginController from "./page/login/login.controller.tsx";
-import SignUp from "./page/signUp/signUp.tsx";
+import SignUp from "./page/signUp/signUp.controller.tsx";
 
 function beforeEveryRoute({request}) {
 
