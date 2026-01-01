@@ -5,13 +5,11 @@ const authCheck = async (req: Request, res : Response, next: NextFunction) => {
     
     try {
         const token = req.cookies.token;
-        console.log("token: ", token);
         if(!token) return res.status(401).json({ 
             success: false,
             message: "Token missing"
         });
         await jwt.verify(token, process.env.JWT_SECRET_KEY!);
-        console.log("authLast");
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Invalid token' });

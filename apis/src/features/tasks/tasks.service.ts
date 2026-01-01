@@ -49,7 +49,6 @@ const putTasks = async ({name, description, status , id}:{name:string, descripti
         }
         params.push(id);
         const sql = `UPDATE tasks SET ${keys} WHERE id = ?`;
-        console.log(sql, params);
         const [rows] = await db.query(sql, params);
         return rows;
     }else{

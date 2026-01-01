@@ -27,12 +27,14 @@ const signUp = async (req: Request, res: Response, next:NextFunction)=>{
 }
 const login = async (req: Request, res: Response, next:NextFunction)=>{
     try{
+        console.log("In login");
         let password = req.body.password,
             email = req.body.email;
             
         let user = await Users.findOne({
             where:{"email": email}
         });
+        console.log(user);
         if(user){
             let isAuth = await bcrypt.compare(password, user.getDataValue('password'));
             if(isAuth){
@@ -42,6 +44,7 @@ const login = async (req: Request, res: Response, next:NextFunction)=>{
                     secure: true,
                     sameSite: 'none',
                     path: '/',  
+                    partitioned: true,
                     maxAge:30*24*3600*1000
                 });
                 res.status(200).json({"message": "Successfully login"});
@@ -72,9 +75,12 @@ const google = async (req: Request, res: Response, next: NextFunction)=>{
             let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
             let token = JWT.sign({"id" : id,'isGuest': false }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
             res.cookie('token',token, {
-                secure: false,
-                sameSite: 'lax',  // Works on HTTP
-                path: '/',        // Available everywhere
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                path: '/',  
+                partitioned: true,
+                maxAge:30*24*3600*1000
             });    
             res.redirect(`${process.env.CLIENT_URL}/list`);
         })(req, res, next);
@@ -92,9 +98,12 @@ const logout = async (req: Request, res: Response)=>{
         const isGuest = cookie_payload.isGuest;
         isGuest && await deleteTasks({"user_id": user_id});
         res.clearCookie('token', {
-            path: '/',
+            httpOnly: true,
+            secure: true,
             sameSite: 'none',
-            secure: true
+            path: '/',  
+            partitioned: true,
+            maxAge:30*24*3600*1000
         });
         // TODO: clear all data from database al well
         res.send("Cookie deleted");
@@ -103,7 +112,6 @@ const logout = async (req: Request, res: Response)=>{
     }
 }
 const guestLogin = async (req: Request, res: Response)=>{
-
     let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
     let token = JWT.sign({"id" : id,'isGuest': true }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
     res.cookie('token',token, {
