@@ -111,7 +111,7 @@ const guestLogin = async (req: Request, res: Response)=>{
         secure: true,
         sameSite: 'none',
         path: '/',  
-        partition: true,
+        partitioned: true,
         maxAge:30*24*3600*1000
     });
     res.status(200).json({ message: "Login successfully." });
