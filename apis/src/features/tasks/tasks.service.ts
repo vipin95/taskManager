@@ -1,20 +1,26 @@
 import db from "../../config/db_config";
 
-const getTasks = async (user_id:string, id?:number)=>{
+const getTasks = async (isGuest:boolean, user_id:string | number, id?:number)=>{
+    let userKey;
+    if(isGuest) userKey="guest_user_id";
+    else userKey="user_id";
     var sql;
     if(id){
         sql = `SELECT *, DATE_FORMAT(created_at, '%d %b %Y') AS created_at, DATE_FORMAT(updated_at, '%d %b %Y') AS updated_at FROM 
-        tasks WHERE guest_user_id="${user_id}" AND tasks.id="${id}"`;
+        tasks WHERE ${userKey}="${user_id}" AND tasks.id="${id}"`;
     }else{
-        sql = ` SELECT status, COUNT(*) AS count FROM tasks WHERE guest_user_id="${user_id}" GROUP BY status;
+        sql = ` SELECT status, COUNT(*) AS count FROM tasks WHERE ${userKey}="${user_id}" GROUP BY status;
         SELECT *, DATE_FORMAT(created_at, '%d %b %Y') AS created_at_formatted, DATE_FORMAT(updated_at, '%d %b %Y') AS updated_at_formatted FROM 
-        tasks WHERE guest_user_id="${user_id}" ORDER BY updated_at DESC`;
+        tasks WHERE ${userKey}="${user_id}" ORDER BY updated_at DESC`;
     }
     const [rows] = await db.query(sql);
     return rows;
 }
-const postTasks = async (id:string, {name, description}:{name:string, description:string})=>{
-    let sql = `INSERT INTO tasks (name, description, guest_user_id) VALUES (?, ?, ?)`;
+const postTasks = async (isGuest:boolean, id:string | number, {name, description}:{name:string, description:string})=>{
+    let userKey;
+    if(isGuest) userKey="guest_user_id";
+    else userKey="user_id";
+    let sql = `INSERT INTO tasks (name, description, ${userKey}) VALUES (?, ?, ?)`;
         let params = [name, description, id]
         const [rows] = await db.query(sql, params);
         return rows;
@@ -50,7 +56,7 @@ const putTasks = async ({name, description, status , id}:{name:string, descripti
         return "One of the most importent Field mission";
     }
 }
-const deleteTasks = async ({user_id, id}:{user_id?:string, id?: number})=>{
+const deleteTasks = async ({user_id, id}:{user_id?:string|number, id?: number})=>{
     try {
         let query;
         let queryData;

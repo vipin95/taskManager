@@ -15,12 +15,29 @@ const PORT = process.env.PORT || 4001; // Port Define
 
 app.use(passport.initialize());
 app.use(cookieParser());
+const allowedOrigins = [
+    'https://taskmanager-ec96a.web.app',
+    'http://localhost:3000',
+    // add more as needed
+];
 app.use(
     cors({
-      origin: (origin, callback) => callback(null, true),
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, origin || true); // reflect or true for no-origin
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
       credentials: true,
     })
-  );
+);
+// app.use(
+//     cors({
+//       origin: (origin, callback) => callback(null, true),
+//       credentials: true,
+//     })
+// );
 app.get("/",(req:Request, res:Response)=>{
     res.send("Server working fine");
 });

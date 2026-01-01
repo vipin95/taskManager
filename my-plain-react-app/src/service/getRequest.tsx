@@ -1,5 +1,12 @@
 const apiUrl = process.env.REACT_APP_API_URL;
 
+function missingToken(res:any) {
+  if (res.status === 401) {
+    localStorage.removeItem("login");
+    window.location.href = "/login";
+    throw new Error("Unauthorized");
+  }
+}
 async function Get(path: string, id?: number ) {
   let url;
     if(id){
@@ -11,7 +18,9 @@ async function Get(path: string, id?: number ) {
         method: "GET",
         credentials: "include", // ✅ send cookies (for same-site or CORS)
       });
-
+      if(response.status ==401){
+        missingToken(response);
+      }
       if (!response.ok) {
         let errorData = await response.json();
         throw { status: response.status, message: errorData.message };

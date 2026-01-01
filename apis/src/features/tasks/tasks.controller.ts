@@ -7,9 +7,11 @@ import jwt from "jsonwebtoken";
 
 const listTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
+        console.log("listTask Controller");
         const cookie_payload : any = await jwt.decode(req.cookies.token);
         const user_id = cookie_payload?.id;
-        const tasksList = await getTasks(user_id);
+        const isGuest = cookie_payload.isGuest;
+        const tasksList = await getTasks(isGuest, user_id);
         res.status(200).json(tasksList);
     }catch(error){
         next(error);
@@ -20,7 +22,8 @@ const FetchTask = async (req: Request, res : Response, next: NextFunction)=>{
         const cookie_payload : any = await jwt.decode(req.cookies.token);
         const user_id = cookie_payload.id;
         const id = parseInt(req.params.id);
-        const tasksList = await getTasks(user_id, id);
+        const isGuest = cookie_payload.isGuest;
+        const tasksList = await getTasks(isGuest, user_id, id);
         res.status(200).json(tasksList);
     }catch(error){
         next(error);
@@ -30,7 +33,9 @@ const addTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
         const cookie_payload : any = await jwt.decode(req.cookies.token);
         const user_id = cookie_payload.id;
-        const tasksList = await postTasks(user_id, req.body);
+        const isGuest = cookie_payload.isGuest;
+        console.log(typeof isGuest);
+        const tasksList = await postTasks(isGuest, user_id, req.body);
         res.status(200).json(tasksList);
     }catch(error){
         next(error);

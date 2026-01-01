@@ -36,7 +36,8 @@ function LoginController() {
             "password": user.password
             }
         );
-        setUser({...user, "login":"true"});
+        localStorage.setItem("login","true");
+        navigate("/list");
     }
     const googleLogin = async ()=>{
         window.location.href = "http://localhost:4000/auth/google";
