@@ -23,15 +23,20 @@ const allowedOrigins = [
 app.use(
     cors({
       origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, origin || true); // reflect or true for no-origin
-        } else {
-          callback(new Error('Not allowed by CORS'));
+        // Allow non-browser requests (e.g., Postman, mobile native apps) – no origin header
+        if (!origin) {
+          return callback(null, ''); // or any string; some use 'true' here but better to use a dummy or fix client
         }
+  
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, origin); // ← Reflect the exact origin string
+        }
+  
+        return callback(new Error('Not allowed by CORS')); // Blocks with error
       },
       credentials: true,
     })
-);
+  );
 // app.use(
 //     cors({
 //       origin: (origin, callback) => callback(null, true),
