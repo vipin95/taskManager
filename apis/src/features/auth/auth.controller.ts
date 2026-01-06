@@ -27,14 +27,12 @@ const signUp = async (req: Request, res: Response, next:NextFunction)=>{
 }
 const login = async (req: Request, res: Response, next:NextFunction)=>{
     try{
-        console.log("In login");
         let password = req.body.password,
             email = req.body.email;
             
         let user = await Users.findOne({
             where:{"email": email}
         });
-        console.log(user);
         if(user){
             let isAuth = await bcrypt.compare(password, user.getDataValue('password'));
             if(isAuth){
@@ -52,9 +50,7 @@ const login = async (req: Request, res: Response, next:NextFunction)=>{
                 res.status(401).json("Invalid User!");
             }
         }else{
-            res.send(
-                "Invalid User!"
-            );
+            res.status(401).json("Invalid email or password");
         }
     }catch(error){
         next(error);
@@ -88,7 +84,7 @@ const google = async (req: Request, res: Response, next: NextFunction)=>{
         next(error);
     }
 }
-const logout = async (req: Request, res: Response)=>{
+const logout = async (req: Request, res: Response, next: NextFunction)=>{
     try {
         const cookie_payload : any = await jwt.decode(req.cookies.token);
         if( !cookie_payload ) {
@@ -108,21 +104,25 @@ const logout = async (req: Request, res: Response)=>{
         // TODO: clear all data from database al well
         res.send("Cookie deleted");
     } catch (error) {
-        throw error;
+        next(error);
     }
 }
-const guestLogin = async (req: Request, res: Response)=>{
-    let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
-    let token = JWT.sign({"id" : id,'isGuest': true }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
-    res.cookie('token',token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        path: '/',  
-        partitioned: true,
-        maxAge:30*24*3600*1000
-    });
-    res.status(200).json({ message: "Login successfully." });
+const guestLogin = async (req: Request, res: Response, next: NextFunction)=>{
+    try {
+        let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
+        let token = JWT.sign({"id" : id,'isGuest': true }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
+        res.cookie('token',token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/',  
+            partitioned: true,
+            maxAge:30*24*3600*1000
+        });
+        res.status(200).json({ message: "Login successfully." });
+    } catch (error) {
+        next(error);
+    }
 }
 
 export {

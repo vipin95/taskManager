@@ -1,5 +1,6 @@
 import style from "../../assets/style/addTask_style.module.css";
 import { useNavigate } from "react-router";
+import PreviewCard from "../../compononts/task_card_preview.tsx";
 
 function TaskAdd({formData, updateState, postData, date, inputRef}) {
     const navigate = useNavigate();
@@ -31,19 +32,7 @@ function TaskAdd({formData, updateState, postData, date, inputRef}) {
                     <select name="taskStatus" id="taskStatus" className={style.taskStatus} disabled>
                         <option value="To Do">To Do</option>
                     </select>
-                    <hr/>
-                    <label for="preview">Preview</label>
-                    <div className={style.card} id="preview">
-                        <div className={style.card_left}>
-                            <span className={style.taskStage} style={{"background-color": "#dbfce7", "color":"#248236"}}>Completed</span>
-                            <p>{formData?.name}</p>
-                            <p className={style.taskDescription}>{formData?.description}</p>
-                            <ul className={style.taskDates}>
-                                <li>{date}</li>
-                                <li>{date}</li>
-                            </ul>
-                        </div>
-                    </div>
+                    {/* <PreviewCard style={style} formData={formData} date={date}/> */}
                     <div className={style.form_button}>
                         <button type="button" className={style.cancel}>Reset</button>
                         <button type="submit">+ Create Task</button>

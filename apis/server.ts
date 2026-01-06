@@ -54,8 +54,7 @@ registerRoutes(app);  // Registring all the routes here
 app.use((err: any, req: Request, res: Response, next: NextFunction)=>{
     console.log("Error", err);
     res.status(500).json({
-        "Message" : "Internal server Error",
-        "Error" : err.message
+        "message" : err.message
     })
 });
 

@@ -2,6 +2,7 @@ import Login from "./login.tsx";
 import { useEffect, useState} from 'react';
 import { useNavigate } from "react-router";
 import { Get, Post } from "../../service/getRequest.tsx";
+import { toast } from 'react-toastify';
 
 function LoginController() {
     const navigate = useNavigate();
@@ -31,13 +32,17 @@ function LoginController() {
     }
     const userLogin = async (event)=>{
         event.preventDefault();
-        await Post("/auth/login", {
+        let res = await Post("/auth/login", {
             "email" : user.email,
             "password": user.password
             }
         );
-        localStorage.setItem("login","true");
-        navigate("/list");
+        if(res.status === 401){
+            toast.error("res.message");
+        }else {
+            localStorage.setItem("login","true");
+            navigate("/list");
+        }
     }
     const googleLogin = async ()=>{
         window.location.href = "http://localhost:4000/auth/google";
