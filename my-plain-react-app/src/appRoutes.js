@@ -5,7 +5,7 @@ import TaskAddController from "./page/task_add/task.controller.tsx";
 import TaskEditController from "./page/task_edit/task_Edit.controller.tsx";
 import LoginController from "./page/login/login.controller.tsx";
 import SignUp from "./page/signUp/signUp.controller.tsx";
-import { Get } from "./service/request.tsx";
+import { Get, Post } from "./service/request.tsx";
 
 async function beforeEveryRoute({request}) {
 
@@ -14,6 +14,8 @@ async function beforeEveryRoute({request}) {
   const currentPath = url.pathname;
   
   if (currentPath !== "/login" && isLogin !== true) {
+    const code = new URLSearchParams(window.location.search).get("code");
+    await Post("/auth/exchange", {"code": code});
     const mySelf = await Get("/me");
     if(mySelf.status == 200){
       localStorage.setItem("login", "true");

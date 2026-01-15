@@ -4,7 +4,6 @@ function missingToken(res:any) {
   if (res.status === 401) {
     localStorage.removeItem("login");
     window.location.href = "/login";
-    throw new Error("Unauthorized");
   }
 }
 async function Get(path: string, id?: number ) {
