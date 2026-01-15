@@ -71,7 +71,7 @@ const mySelf = async (req: Request,res : Response, next: NextFunction)=>{
             if(user) res.json({status:"200", data: user});
             else res.status(401).json("Invalid User!");
         }else{
-            res.status(405).json("Invalid User.");
+            res.status(401).json("Invalid User.");
         }
     }catch(error){
         next(error);
