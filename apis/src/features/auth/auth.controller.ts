@@ -76,16 +76,21 @@ const google = async (req: Request, res: Response, next: NextFunction)=>{
                 "email": user.email, 
                 "name": user.name}
             );
-            let token = JWT.sign({"id" : User.dataValues.id,'isGuest': false }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
-            res.cookie('token',token, {
-                httpOnly: true,
-                secure: true,
-                sameSite: 'none',
-                path: '/',  
-                partitioned: true,
-                maxAge:30*24*3600*1000
-            });
-            res.redirect(`${process.env.CLIENT_URL}/list`);
+            const tempCode = JWT.sign(
+                { id: User.dataValues.id },
+                process.env.JWT_SECRET_KEY!,
+                { expiresIn: "120s" }
+            );
+            // let token = JWT.sign({"id" : User.dataValues.id,'isGuest': false }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
+            // res.cookie('token',token, {
+            //     httpOnly: true,
+            //     secure: true,
+            //     sameSite: 'none',
+            //     path: '/',  
+            //     partitioned: true,
+            //     maxAge:30*24*3600*1000
+            // });
+            res.redirect(`${process.env.CLIENT_URL}/list?code=${tempCode}`);
         })(req, res, next);
     } catch (error) {
         next(error);
@@ -131,12 +136,32 @@ const guestLogin = async (req: Request, res: Response, next: NextFunction)=>{
         next(error);
     }
 }
+const exchange = async (req: Request, res: Response, next: NextFunction)=>{
+    const code = req.body.code;
+    const payload: any = JWT.verify(code, process.env.JWT_SECRET_KEY!);
+    const token = JWT.sign(
+        { id: payload.id, isGuest: false },
+        process.env.JWT_SECRET_KEY!,
+        { expiresIn: "30d" }
+    );
 
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        path: "/",
+        partitioned: true,
+        maxAge:30*24*3600*1000
+    });
+
+    res.status(200).json({ success: true });
+}
 export {
     signUp,
     login,
     google,
     redirectToGoogle,
     guestLogin,
-    logout
+    logout,
+    exchange
 }
