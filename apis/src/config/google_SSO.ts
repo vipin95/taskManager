@@ -5,9 +5,8 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.SERVER_URL!,
-      // callbackURL: `${process.env.SERVER_URL}/auth/google/g-login`,
-      callbackURL: `https://taskmanager-production-3540.up.railway.app/auth/google/g-login`,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      callbackURL: `${process.env.SERVER_URL}/auth/google/g-login`,
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = {

@@ -63,13 +63,21 @@ const redirectToGoogle = async (req: Request, res: Response)=>{
 }
 const google = async (req: Request, res: Response, next: NextFunction)=>{
     // TODO: retive data and pass JWT token to user
+
     try {
-        passport.authenticate("google", { session: false }, (err, user) => {
+        passport.authenticate("google", { session: false }, async (err, user) => {
             if (err || !user) {
                 return res.redirect(`${process.env.CLIENT_URL}/login`); 
             }
-            let id = `guest_${Math.random().toString(36).substr(2, 9)}`;
-            let token = JWT.sign({"id" : id,'isGuest': false }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
+            let User = await Users.findOne({
+                where:{"email": user.email}
+            });
+            if(!User) User = await Users.create({
+                "password": "SSO_LOGIN", 
+                "email": user.email, 
+                "name": user.name}
+            );
+            let token = JWT.sign({"id" : User.dataValues.id,'isGuest': false }, process.env.JWT_SECRET_KEY as string, { expiresIn: '30d' });
             res.cookie('token',token, {
                 httpOnly: true,
                 secure: true,
@@ -77,7 +85,7 @@ const google = async (req: Request, res: Response, next: NextFunction)=>{
                 path: '/',  
                 partitioned: true,
                 maxAge:30*24*3600*1000
-            });    
+            });
             res.redirect(`${process.env.CLIENT_URL}/list`);
         })(req, res, next);
     } catch (error) {

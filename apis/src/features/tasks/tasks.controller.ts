@@ -4,6 +4,7 @@ import {getTasks,
     putTasks,
     deleteTasks} from "./tasks.service";
 import jwt from "jsonwebtoken";
+import Users from "../../model/sequelize_user";
 
 const listTask = async (req: Request, res : Response, next: NextFunction)=>{
     try{
@@ -33,7 +34,6 @@ const addTask = async (req: Request, res : Response, next: NextFunction)=>{
         const cookie_payload : any = await jwt.decode(req.cookies.token);
         const user_id = cookie_payload.id;
         const isGuest = cookie_payload.isGuest;
-        console.log(isGuest, user_id);
         const tasksList = await postTasks(isGuest, user_id, req.body);
         res.status(200).json(tasksList);
     }catch(error){
@@ -57,10 +57,30 @@ const deleteTask = async (req: Request,res : Response, next: NextFunction)=>{
         next(error);
     }
 };
+const mySelf = async (req: Request,res : Response, next: NextFunction)=>{
+    try{
+        const cookie_payload : any = await jwt.decode(req.cookies.token);
+        const user_id = cookie_payload.id;
+        const isGuest = cookie_payload.isGuest;
+        var user;
+        if(!isGuest){
+            user = await Users.findOne({
+                where:{"id": user_id}
+            });
+            if(user) res.json({status:"200", data: user});
+            else res.status(401).json("Invalid User!");
+        }else{
+            res.status(401).json("Invalid User!");
+        }
+    }catch(error){
+        next(error);
+    }
+};
 export {
     listTask, 
     addTask, 
     updatetask, 
     deleteTask,
-    FetchTask
+    FetchTask,
+    mySelf
 };
