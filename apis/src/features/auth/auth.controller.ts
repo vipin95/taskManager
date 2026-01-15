@@ -62,11 +62,10 @@ const redirectToGoogle = async (req: Request, res: Response)=>{
     passport.authenticate('google', { scope: ['profile', 'email'] })(req, res);
 }
 const google = async (req: Request, res: Response, next: NextFunction)=>{
-    // TODO: retive data and pass JWT token to user
-
     try {
         passport.authenticate("google", { session: false }, async (err, user) => {
             if (err || !user) {
+                console.log(err);
                 return res.redirect(`${process.env.CLIENT_URL}/login`); 
             }
             let User = await Users.findOne({
