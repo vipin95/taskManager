@@ -68,7 +68,7 @@ const mySelf = async (req: Request,res : Response, next: NextFunction)=>{
                 where:{"id": user_id}
             });
             if(user) res.json({status:"200", data: user});
-            else res.status(401).json("Invalid User!");
+            else res.status(405).json("Invalid User!");
         }else{
             res.status(401).json("Invalid User.");
         }
