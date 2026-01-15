@@ -1,7 +1,7 @@
 import TaskEdit from "./task_Edit.tsx";
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from "react-router";
-import {Get, Edit} from "../../service/getRequest.tsx";
+import {Get, Edit} from "../../service/request.tsx";
 
 function TaskAddController() {
     const [formData, setFormData] = useState({});

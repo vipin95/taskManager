@@ -1,7 +1,7 @@
 import Login from "./login.tsx";
 import { useEffect, useState} from 'react';
 import { useNavigate } from "react-router";
-import { Get, Post } from "../../service/getRequest.tsx";
+import { Get, Post } from "../../service/request.tsx";
 import { toast } from 'react-toastify';
 
 function LoginController() {
@@ -45,7 +45,7 @@ function LoginController() {
         }
     }
     const googleLogin = async ()=>{
-        window.location.href = "https://taskmanager-production-3540.up.railway.app/auth/google";
+        window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
     }
     return(
         <Login GuestLoginAction={GuestLogin} navigate={navigate} StateUpdate={StateUpdate} user={user} userLogin={userLogin}>

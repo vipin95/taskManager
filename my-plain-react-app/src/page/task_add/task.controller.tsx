@@ -1,7 +1,7 @@
 import TaskAdd from "./task_add.tsx";
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import {Post} from "../../service/getRequest.tsx";
+import {Post} from "../../service/request.tsx";
 import { toast } from 'react-toastify';
 
 function TaskAddController() {

@@ -1,7 +1,7 @@
 import SignUp from "./signUp.tsx";
 import { useEffect, useState} from 'react';
 import { useNavigate } from "react-router";
-import { Get, Post } from "../../service/getRequest.tsx";
+import { Get, Post } from "../../service/request.tsx";
 
 function LoginController() {
     const navigate = useNavigate();

@@ -5,15 +5,21 @@ import TaskAddController from "./page/task_add/task.controller.tsx";
 import TaskEditController from "./page/task_edit/task_Edit.controller.tsx";
 import LoginController from "./page/login/login.controller.tsx";
 import SignUp from "./page/signUp/signUp.controller.tsx";
+import { Get } from "./service/request.tsx";
 
-function beforeEveryRoute({request}) {
+async function beforeEveryRoute({request}) {
 
   const isLogin = localStorage.getItem("login") === "true";
   const url = new URL(request.url);
   const currentPath = url.pathname;
   
   if (currentPath !== "/login" && isLogin !== true) {
-    throw redirect("/login");
+    const mySelf = await Get("/me");
+    if(mySelf.status == 200){
+      localStorage.setItem("login", "true");
+      localStorage.setItem("name", mySelf.data.name);
+    }
+    else throw redirect("/login");
   }else if(currentPath == "/login" && isLogin == true){
     throw redirect("/list");
   }

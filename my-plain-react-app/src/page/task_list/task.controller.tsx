@@ -1,7 +1,7 @@
 import TaskList from "./task_list.tsx";
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router";
-import { Get, Edit, Delete } from "../../service/getRequest.tsx";
+import { Get, Edit, Delete } from "../../service/request.tsx";
 import { API_PATHS, stateName } from "../../assets/constants.js";
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
