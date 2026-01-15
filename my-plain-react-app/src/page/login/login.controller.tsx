@@ -45,7 +45,7 @@ function LoginController() {
         }
     }
     const googleLogin = async ()=>{
-        window.location.href = "http://localhost:4000/auth/google";
+        window.location.href = "https://taskmanager-production-3540.up.railway.app/auth/google";
     }
     return(
         <Login GuestLoginAction={GuestLogin} navigate={navigate} StateUpdate={StateUpdate} user={user} userLogin={userLogin}>
